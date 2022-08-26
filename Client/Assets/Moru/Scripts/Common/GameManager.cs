@@ -10,6 +10,7 @@ namespace Moru
 
         #region Field
 
+        #region Delivery
         /// <summary>
         /// 유저의 현재 스코어입니다.
         /// </summary>
@@ -43,6 +44,10 @@ namespace Moru
         [BoxGroup("발주 관련"), LabelText("딜리버리 매니저")]
         public DeliveryManager deliveryManager = new DeliveryManager();
 
+        #endregion
+
+        #region Order
+
         /// <summary>
         /// 손님들의 오더가 담겨있는 CSV파일입니다.
         /// </summary>
@@ -56,10 +61,17 @@ namespace Moru
         /// <summary>
         /// 오더 종류입니다.
         /// </summary>
-        [BoxGroup("오더 관련"),LabelText("오더 종류")]
+        [BoxGroup("오더 관련"), LabelText("오더 종류")]
         public MoruDefine.OrderRequest[] requests;
 
+        #endregion
 
+        #region Inventory
+
+        [BoxGroup("보관함"), LabelText("보관함"), ShowInInspector]
+        public Dictionary<MoruDefine.Product, MoruDefine.StorageBox> storageBox = new Dictionary<MoruDefine.Product, MoruDefine.StorageBox>();
+
+        #endregion
 
         #endregion
 
@@ -70,7 +82,7 @@ namespace Moru
             ProductPatten_CSV = Resources.Load<TextAsset>("recipePatten");
             productCSV_Data = CSV.CSVReader.Initialize_TextAsset(ProductPatten_CSV, MoruDefine.ProductPatten_DicKey);
             requests = new MoruDefine.OrderRequest[productCSV_Data.columnCount - 1];
-            for(int i = 1; i < productCSV_Data.columnCount-1; i++)
+            for (int i = 1; i < productCSV_Data.columnCount - 1; i++)
             {
                 if (i == 0) { }
                 else
@@ -82,6 +94,15 @@ namespace Moru
 
             //발주 주문 델리게이트 등록
             MoruDefine.delegate_Delivery += deliveryManager.OnOrderItem;
+
+            //각 항목에 따른 아이템 보관함을 초기화합니다. 최대저장공간용량과 최초 게임시작시 가지고 있을 용량을 임의의 값 30, 0으로 우선 결정해두었습니다.
+            if (storageBox.Count != (int)MoruDefine.Product.MAX)
+            {
+                for (int i = 0; i < (int)MoruDefine.Product.MAX; i++)
+                {
+                    storageBox.Add((MoruDefine.Product)i, new MoruDefine.StorageBox(30, 0));
+                }
+            }
         }
 
 
@@ -94,11 +115,13 @@ namespace Moru
         private void Update()
         {
             cur_Delivery_Time += Time.deltaTime;
-            if(cur_Delivery_Time >= delivery_Time)
+            if (cur_Delivery_Time >= delivery_Time)
             {
                 deliveryManager.Arrive();
                 cur_Delivery_Time = 0;
             }
         }
+
+
     }
 }

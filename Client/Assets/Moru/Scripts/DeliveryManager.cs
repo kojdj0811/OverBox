@@ -29,13 +29,20 @@ namespace Moru
             {
                 //컴퓨터 오브젝트에서 알람을 담당할 클래스를 찾아 알람을 발동시킵니다.
 
+
+                //실제로 발주한 아이템들을 각각 상품에다가 추가하여 더합니다.
+                var manager = GameManager.Instance;
+                for(int i = 0; i < deliveryItem.Value.items.Length; i++)
+                {
+                    manager.storageBox[(MoruDefine.Product)i].ProductKeep(deliveryItem.Value.items[i]);
+                }
             }
 
         }
 
 
         /// <summary>
-        /// 발주를 넣을 경우 델리게이트 메서드가 실행됩니다.
+        /// 발주를 넣을 경우 해당 메서드가 실행되도록 합니다.
         /// </summary>
         /// <param name="items"></param>
         public void OnOrderItem(int[] items)
@@ -48,7 +55,7 @@ namespace Moru
 
         public struct DeliveryItem
         {
-            int[] items;
+            public int[] items;
             public DeliveryItem(int[] items)
             {
                 this.items = items;
