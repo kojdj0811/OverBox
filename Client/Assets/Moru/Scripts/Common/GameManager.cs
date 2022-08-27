@@ -130,7 +130,7 @@ namespace Moru
             //레시피패턴 할당
             ProductPatten_CSV = Resources.Load<TextAsset>("recipePatten");
             productCSV_Data = CSV.CSVReader.Initialize_TextAsset(ProductPatten_CSV, MoruDefine.ProductPatten_DicKey);
-            requests = new MoruDefine.OrderRequest[productCSV_Data.columnCount - 1];
+            requests = new MoruDefine.OrderRequest[productCSV_Data.columnCount - 2];
             for (int i = 1; i < productCSV_Data.columnCount - 1; i++)
             {
                 if (i == 0) { }

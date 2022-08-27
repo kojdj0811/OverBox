@@ -53,5 +53,11 @@ namespace Moru
             Debug.Log($"박스에 {product}를 {howMay}만큼 담았습니다. 현재 카운드 : {count}" +
                 $"\n 테스트용 랜덤값이 삽입되는 것을 주의하세요.");
         }
+
+        public void CompletePacking(int DiscorrectCount)
+        {
+            isPacking = true;
+            this.DiscorrectCount = DiscorrectCount;
+        }
     }
 }

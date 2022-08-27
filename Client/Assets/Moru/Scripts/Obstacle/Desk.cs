@@ -52,15 +52,14 @@ namespace Moru
             //박스가 있을 경우만 상호작용이 가능합니다.
             if(isBoxExist)
             {
-                //박스가 있을 경우, 플레이어 핸드가 비어있지 않다면 물건을 집어넣습니다.
-                if(pl)
+                //박스가 있을 경우, 플레이어 핸드가 비어있지 않고 박스가 아니라면 물건을 집어넣습니다.
+                if(pl.carryingIndex != 8 && pl.carryingIndex != 7)
                 {
                     //플레이어의 핸드가 들고 있는게 물건일 경우 물건을 집어넣습니다.
                     if(pl)
                     {
                         //어떤 물건을 집어넣을지는 플레이어의 핸드에서 참조합니다. 일단 임시값 랜덤
-                        int random = Random.Range(0, (int)MoruDefine.Product.MAX);
-                        box.Put_Product((MoruDefine.Product)random);
+                        box.Put_Product((MoruDefine.Product)pl.carryingIndex);
                     }
                     else if(pl) //플레이어가 들고 있는게 박스라면 박스를 데스크에 올려둡니다.
                     {

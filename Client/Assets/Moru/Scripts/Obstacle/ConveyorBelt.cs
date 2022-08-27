@@ -44,15 +44,15 @@ namespace Moru
             }
 
             
-            var requestMager = RequestManager.instance;
-            if (requestMager != null)
+            var requestManager = RequestManager.instance;
+            if (requestManager != null)
             {
                 //nullable int 선언
                 int ?correct_Adress = null;
                 //리퀘스트목록에서 같은 배열형식이 있다면 해당어드레스를 할당
-                for(int i = 0; i < requestMager.getOrderList().Count; i++)
+                for(int i = 0; i < requestManager.getOrderList().Count; i++)
                 {
-                    var orderList = requestMager.getOrderList()[i];
+                    var orderList = requestManager.getOrderList()[i];
                     if(orderList.requestList == prd_Arry)
                     {
                         correct_Adress = i;
@@ -62,11 +62,17 @@ namespace Moru
                 if(correct_Adress != null)
                 {
                     //리퀘스트 매니저에서 오더리스트의 correct_Adress번째 리스트를 삭제하는 함수
+                    requestManager.completeRequest(correct_Adress.Value);
                     //스코어 올리기
                     SetBoxInit(box);
                     GameManager.Instance.GetScore(prd_Arry, box.DiscorrectCount);
                 }
-
+                else
+                {
+                    //만족하는 리퀘스트가 없으니까
+                    //리퀘스트 안지우고, 스코어 안올리고 그냥 삭제
+                    SetBoxInit(box);
+                }
             }
             else
             {
