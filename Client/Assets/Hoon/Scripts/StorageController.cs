@@ -17,6 +17,7 @@ public class StorageController : MonoBehaviour
     {
         for(int i=0;i<6;i++)
         {
+
             transform.GetChild(i).Find("ProductCnt").GetComponent<TextMeshProUGUI>().text = pCnt[i].ToString();
         }
     }
