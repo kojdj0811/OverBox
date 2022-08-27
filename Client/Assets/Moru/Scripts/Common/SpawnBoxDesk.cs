@@ -12,6 +12,7 @@ namespace Moru
         /// 스폰위치는 자신의 데스크입니다.
         /// </summary>
         private Desk mydesk;
+        public bool isBoxExsist => mydesk ? mydesk.isBoxExist : false;
 
         private void Awake()
         {
@@ -30,6 +31,7 @@ namespace Moru
                     var new_box = Instantiate(_box);
                     var boxComp = new_box.GetComponent<Box>();
                     mydesk.SetBoxInit(boxComp);
+                    GameManager.Instance.cur_Box_Exist_Count++;
                 }
             }
         }

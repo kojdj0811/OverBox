@@ -12,7 +12,8 @@ namespace Moru
     public class Desk : Obstacle
     {
         public bool isBoxExist => box? true : false;
-        private Vector3 Box_PivotPos;
+        [SerializeField]
+        private Transform box_Spot_transform;
         public Box box;
 
         /// <summary>
@@ -32,8 +33,9 @@ namespace Moru
         /// <param name="box"></param>
         public void SetBoxInit(Box box)
         {
-            box.gameObject.transform.localPosition = Box_PivotPos;
             box.transform.SetParent(this.transform);
+            box.gameObject.transform.localPosition = box_Spot_transform.localPosition;
+            box.gameObject.transform.rotation = this.transform.rotation;
             this.box = box;
         }
         

@@ -76,8 +76,6 @@ namespace Moru
 
         #region BOX
 
-        #endregion
-
         /// <summary>
         /// 박스 프리팹 원본입니다.
         /// </summary>
@@ -90,8 +88,18 @@ namespace Moru
         /// </summary>
         [BoxGroup("박스 규칙"), LabelText("박스가 최대 몇개까지 존재가능한가")]
         public int maxCount_BoxExist;
+        [BoxGroup("박스 규칙"), LabelText("현재 박스가 존재하는 수"), ReadOnly]
+        public int cur_Box_Exist_Count = 0;
 
+        private float cur_spawnBoxTime = 0;
+        [BoxGroup("박스 규칙"), LabelText("박스소환 주기")]
         public float spawnBox_MinimumTerm = 0.5f;
+
+
+        [BoxGroup("박스 규칙"), LabelText("박스소환장소")]
+        public SpawnBoxDesk spawnDesk;
+        #endregion
+
 
         #endregion
 
@@ -102,7 +110,8 @@ namespace Moru
         /// </summary>
         [BoxGroup("UI"), LabelText("발주용 팝업 UI")]
         public GameObject Pop_OrderUI;
-
+        [BoxGroup("UI"), LabelText("상품 아이콘들"), SerializeField]
+        private List<Sprite> Icon_Images;
 
         #endregion
 
@@ -136,6 +145,13 @@ namespace Moru
                     storageBox.Add((MoruDefine.Product)i, new MoruDefine.StorageBox(30, 0));
                 }
             }
+            Icon_Images = new List<Sprite>();
+            for (int i = 0; i < (int)MoruDefine.Product.MAX; i++)
+            {
+                var img = Resources.Load<Sprite>($"Icons/Product/{i}");
+                Icon_Images.Add(img);
+            }
+            MoruDefine.Item_Icon = Icon_Images;
         }
 
 
@@ -143,6 +159,11 @@ namespace Moru
         {
             cur_Delivery_Time = delivery_Time;
 
+            //박스를 소환할 수 있는 스포너배열 할당
+            spawnDesk = FindObjectOfType<SpawnBoxDesk>(true);
+            //박스를 소환합니다.
+            spawnDesk.OnSpawn(Box_prefap);
+            
         }
 
         private void Update()
@@ -154,6 +175,12 @@ namespace Moru
                 cur_Delivery_Time = 0;
                 Debug.LogError("상품 도착!");
             }
+
+            cur_spawnBoxTime += Time.deltaTime;
+            if(cur_Box_Exist_Count < maxCount_BoxExist)
+            {
+                UpdateSpawn();
+            }
         }
 
 
@@ -162,5 +189,23 @@ namespace Moru
             deliveryManager.OnOrderItem(items);
         }
 
+        public void OnRemoveBox()
+        {
+            cur_Box_Exist_Count--;
+        }
+
+        private void UpdateSpawn()
+        {
+            if (spawnDesk.isBoxExsist)
+            {
+                return;
+            }
+            else
+            {
+                spawnDesk.OnSpawn(Box_prefap);
+                cur_spawnBoxTime = 0;
+            }
+
+        }
     }
 }

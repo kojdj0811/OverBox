@@ -28,6 +28,15 @@ namespace Moru
         }
 
         /// <summary>
+        /// 박스가 삭제될 때 게임매니저가 관리하는 박스수 잔량이 업데이트됩니다.
+        /// </summary>
+        private void OnDestroy()
+        {
+            //여기서 발생하는 에러는 무시해도 됩니다.
+            GameManager.Instance.OnRemoveBox();
+        }
+
+        /// <summary>
         /// 상품을 박스에 담습니다. 매개변수만큼 담을 수 있습니다. (기본값 = 1)
         /// </summary>
         /// <param name="product">상품명</param>
