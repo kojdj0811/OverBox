@@ -13,7 +13,7 @@ namespace Hyerin
         private void Start()
         {
             index = 0;
-            score = 0;
+            score = 100;
             pattern.Add(KeyCode.Q);
             pattern.Add(KeyCode.W);
             pattern.Add(KeyCode.E);
@@ -23,20 +23,23 @@ namespace Hyerin
             Shuffle();
         }
 
-        public delegate void Test(KeyCode key);
+        public delegate void Check(KeyCode key);
 
-        public void GetAction(KeyCode key, Test test)
+        public void GetKey(KeyCode key, Check test)
         {
-            // 맞았을 때 점수 획득
-            if (IsRight(key))
+            // 틀리면 처음부터 재도전
+            if (!IsRight(key))
             {
-                score++;
+                score -= 10;
+
             }
         }
 
         private bool IsRight(KeyCode key)
         {
-            return pattern[index++] == key;
+            bool res = (pattern[index++] == key);
+            if (index == pattern.Count) End();
+            return res;
         }
 
         // 눌러야 할 키 순서를 섞습니다.
@@ -54,6 +57,20 @@ namespace Hyerin
                 pattern[rand1] = pattern[rand2];
                 pattern[rand2] = tmp;
             }
+        }
+
+        // 게임을 재시작합니다.(인덱스만 리셋)
+        private void Restart()
+        {
+            // UI 갱신
+            //...
+            index = 0;
+        }
+
+        // 게임을 종료합니다.
+        private void End()
+        {
+            Player.Instance.carryingBox.GetComponent<Moru.Box>().CompletePacking(score);
         }
     }
 

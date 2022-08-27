@@ -105,27 +105,24 @@ namespace Hyerin
                 if(isHit && state == State.Movable)
                 {
                     // 박스캐스트에 닿은 오브젝트의 상호작용 메서드를 호출합니다.
-                    //hit.collider.GetComponent<Obstacle>().OnInteractive(this);
+                    hit.collider.GetComponent<Obstacle>().OnInteractive(this);
 
                     // 플레이어의 상태를 변경합니다.
                     string hitColName = hit.collider.name;
-                    switch (hit.collider.name)
+                    if (hit.collider.CompareTag(Box) || hit.collider.CompareTag(Storage))
                     {
-                        case Box:
-                        case Storage:
-                            Carry(hit.collider.gameObject);
-                            isSpacebarPressed = true;
-                            break;
-                        case Computer:
-                            Debug.Log("컴퓨터 사용");
-                            state = State.Computer;
-                            isSpacebarPressed = true;
-                            break;
-                        case ConveyorBelt:
-                            state = State.Audition;
-                            break;
-                        default:
-                            break;
+                        Carry(hit.collider.gameObject);
+                        isSpacebarPressed = true;
+                    }
+                    if (hit.collider.CompareTag(Computer))
+                    {
+                        Debug.Log("컴퓨터 사용");
+                        state = State.Computer;
+                        isSpacebarPressed = true;
+                    }
+                    if (hit.collider.CompareTag(ConveyorBelt))
+                    {
+                        state = State.Audition;
                     }
                 }
 
@@ -133,7 +130,7 @@ namespace Hyerin
                 if (state == State.Computer && !isSpacebarPressed)
                 {
                     Debug.Log("발주됨");
-                    //Moru.MoruDefine.delegate_Delivery?.invoke(items);
+                    Moru.MoruDefine.delegate_Delivery?.Invoke(items);
                 }
 
                 // 물건을 들고 있었다면 내려놓습니다.
