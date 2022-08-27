@@ -6,19 +6,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
-public class ButtonEvnet : MonoBehaviour, ISelectHandler, IDeselectHandler
+public class ButtonEvnet : MonoBehaviour
 {
-    public void OnSelect(BaseEventData eventData)
-    {
-        transform.GetChild(1).gameObject.SetActive(true);
-  
-    }
 
-    public void OnDeselect(BaseEventData eventData)
-    {
-        transform.GetChild(1).gameObject.SetActive(false);
-
-    }
 
     public void LoadScene(string sceneName)
     {
