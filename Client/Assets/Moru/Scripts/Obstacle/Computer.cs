@@ -86,6 +86,8 @@ namespace Moru
                         GameManager.Instance.storageBox[(MoruDefine.Product)i].ProductKeep(deliveryItem.items[i]);
                     }
                     Debug.Log("딜리버리가 물건을 보관함으로 옮깁니다.");
+                    //보관함의 잔량이 업데이트됩니다.
+                    MoruDefine.delegate_UpdateStorage?.Invoke();
                 }
                 else Debug.Log("딜리버리가 널입니다.");
                 //알람을 끕니다.

@@ -15,8 +15,17 @@ namespace Moru
         /// 유저의 현재 스코어입니다.
         /// </summary>
         /// 
-        [LabelText("유저 현재점수")]
+        [BoxGroup("점수 관련"), LabelText("유저 현재점수")]
         public static int curScore = 0;
+
+        [BoxGroup("점수 관련"), LabelText("유저가 획득하는 기본점수")]
+        public static int base_Score = 2000;
+
+        [BoxGroup("점수 관련"), LabelText("유저가 물건당 추가로 획득하는 점수")]
+        public static int prd_Score = 20;
+
+        [BoxGroup("점수 관련"), LabelText("유저가 아재기믹 틀리면 하나당 깎이는 점수")]
+        public static int discount_Score = 2000;
 
         /// <summary>
         /// 유저의 현재 코인입니다.
@@ -206,6 +215,33 @@ namespace Moru
                 cur_spawnBoxTime = 0;
             }
 
+        }
+
+        /// <summary>
+        /// 게임매니저의 점수를 업데이트합니다.
+        /// </summary>
+        /// <param name="prd_Arry">박스가 상품을 담은 배열</param>
+        /// <param name="DiscorreCount">아재기믹 틀린 수</param>
+        public void GetScore(int[] prd_Arry, int DiscorreCount)
+        {
+            int getScore = 0;
+
+            //베이스 점수 더하기
+            getScore += base_Score;
+
+            //물건 수만큼 더하기
+            int i = 0;
+            foreach(var inteager in prd_Arry)
+            {
+                i += inteager;
+            }
+            getScore += i * prd_Score;
+
+            //아재기믹 틀린 개수만큼 점수 빼기
+            getScore -= DiscorreCount * discount_Score;
+
+            //점수 업데이트
+            curScore += getScore;
         }
     }
 }

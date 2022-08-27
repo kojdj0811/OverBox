@@ -11,6 +11,9 @@ namespace Moru
         /// </summary>
         public Dictionary<MoruDefine.Product, int> cur_PuttingItem = new Dictionary<MoruDefine.Product, int>();
 
+        public int DiscorrectCount = 0;
+
+
         /// <summary>
         /// 박스가 포장된 상태인지를 체크하는 불린
         /// </summary>

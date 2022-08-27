@@ -55,6 +55,10 @@ namespace Moru
         /// </summary>
         public static Delegate_Alarm delegate_Alarm;
 
+        public delegate void Delegate_UpdateStorage();
+        public static Delegate_UpdateStorage delegate_UpdateStorage;
+
+
         #endregion
 
         #region Field

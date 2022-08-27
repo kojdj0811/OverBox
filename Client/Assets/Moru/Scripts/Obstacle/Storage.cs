@@ -40,6 +40,8 @@ namespace Moru
                 {
                     //플레이어가 해당물건을 들고 있는 상태로 만듭니다.
                     Debug.Log($"플레이어가 {TargetProduct}를 {result}만큼 꺼냈습니다.");
+                    //보관함의 잔량이 업데이트됩니다.
+                    MoruDefine.delegate_UpdateStorage?.Invoke();
                 }
             }
 
@@ -60,6 +62,8 @@ namespace Moru
                 StorageBox.ProductKeep();
                 //플레이어의 아이템이 비어있는 상태로 만듭니다.
                 Debug.Log($"플레이어가 {TargetProduct}를 집어넣었습니다.");
+                //보관함의 잔량이 업데이트됩니다.
+                MoruDefine.delegate_UpdateStorage?.Invoke();
             }
 
 
