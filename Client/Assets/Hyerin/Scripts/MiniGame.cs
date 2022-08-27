@@ -11,6 +11,8 @@ namespace Hyerin
         private bool isPlay;
         private int index;
         private int score;
+        private int wrongCnt;
+        private float time;
         List<KeyCode> keys = new List<KeyCode>();
         List<KeyCode> pattern = new List<KeyCode>();
 
@@ -19,6 +21,8 @@ namespace Hyerin
             isPlay = true;
             index = 0;
             score = 100;
+            wrongCnt = 0;
+            time = 3f;
             keys.Add(KeyCode.Q);
             keys.Add(KeyCode.W);
             keys.Add(KeyCode.E);
@@ -33,20 +37,33 @@ namespace Hyerin
 
         private void Update()
         {
+            time -= Time.deltaTime;
             // 오답 키를 눌렀다면 재시작합니다.
             if (isPlay)
             {
+                if(time <= 0)
+                {
+                    isPlay=false;
+                    time = 3f;
+                    Debug.Log("시간초과");
+                    score -= 100;
+                    wrongCnt++;
+                    if (wrongCnt < 3) StartCoroutine(Restart());
+                }
                 if (Input.anyKeyDown)
                 {
-                    bool is_correct = Input.GetKeyDown(pattern[index++]);
+                    bool is_correct = Input.GetKeyDown(pattern[index]);
                     packingUI.updateSuccess(is_correct, index);
+                    index++;
                     if (!is_correct)
                     {
+                        isPlay = false;
                         score -= 100;
-                        StartCoroutine(Restart());
+                        wrongCnt++;
+                        if (wrongCnt < 3) StartCoroutine(Restart());
                     }
                 }
-                if (index == 7)
+                if (index == 7 || wrongCnt==3)
                 {
                     isPlay = false;
                     StartCoroutine(End());
@@ -70,6 +87,7 @@ namespace Hyerin
             yield return new WaitForSeconds(0.5f);
             index = 0;
             //packingUI.Restart();
+            isPlay = true;
             yield return null;
         }
 
