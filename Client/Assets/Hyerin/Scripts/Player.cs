@@ -28,7 +28,7 @@ namespace Hyerin
 
         public int carryingIndex; // 0~6:물건, 7:박스, 8:없음
         public State state;
-        public GameObject carryingObj;
+        public GameObject carryingBox;
 
         private bool isSpacebarPressed;
         // 발주 상품 목록
@@ -137,7 +137,7 @@ namespace Hyerin
                 }
 
                 // 물건을 들고 있었다면 내려놓습니다.
-                if (carryingObj && !isSpacebarPressed) Lay();
+                if (IsCarrying() && !isSpacebarPressed) Lay();
             }
 
             #region QWEASD 처리
@@ -224,7 +224,7 @@ namespace Hyerin
 
         public bool IsCarrying()
         {
-            return carryingObj != null;
+            return carryingIndex < 8;
         }
 
         /// <summary>
@@ -232,13 +232,22 @@ namespace Hyerin
         /// </summary>
         private void Carry(GameObject obj)
         {
-            if (carryingObj) return;
+            if (IsCarrying()) return;
 
-            Debug.Log(obj.name + "을 들었음");
-            obj.transform.SetParent(transform);
-            carryingObj = obj;
-            if (obj.name == Box) carryingIndex = 7;
-            else carryingIndex = (int)obj.GetComponent<Moru.Storage>().TargetProduct;
+            if (obj.name == Box)
+            {
+                Debug.Log("박스 들었음");
+                carryingBox = obj;
+                obj.transform.SetParent(transform);
+                carryingIndex = 7;
+            }
+            else
+            {
+                Debug.Log(obj.GetComponent<Moru.Storage>().TargetProduct+" 들었음");
+                // UI 메서드 호출 (구현되면 추가 예정)
+                //...
+                carryingIndex = (int)obj.GetComponent<Moru.Storage>().TargetProduct;
+            }
         }
         
         /// <summary>
@@ -246,9 +255,12 @@ namespace Hyerin
         /// </summary>
         private void Lay()
         {
-            Debug.Log(carryingObj.name + "을 놓음");
-            carryingObj.transform.SetParent(null);
-            carryingObj = null;
+            Debug.Log("내려놓음");
+            if (carryingBox)
+            {
+                carryingBox.transform.SetParent(null);
+                carryingBox = null;
+            }
             carryingIndex = 8;
         }
     }
