@@ -11,13 +11,13 @@ public class PackingUI : MonoBehaviour
     private int maxCode = 7;
     private Image[] checkSuccessColor;
 
-    private void Awake()
+    private void OnEnable()
     {
         settingPos = transform.Find("AuditionPanel");
         checkSuccessColor = new Image[maxCode];
         for (int i=0;i<maxCode;i++)
         {
-            checkSuccessColor[i] = settingPos.GetChild(i).GetChild(0).GetComponent<Image>();
+            checkSuccessColor[i] = settingPos.GetChild(i).GetChild(1).GetComponent<Image>();
             checkSuccessColor[i].color = new Color32(0, 0, 0, 0);
         }
     }
@@ -26,6 +26,7 @@ public class PackingUI : MonoBehaviour
 
     public void setKeyCodeList(List<KeyCode> list)
     {
+        keyCodeList.Clear();
         foreach (var code in list)
             keyCodeList.Add(code);
     }

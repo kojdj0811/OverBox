@@ -16,7 +16,10 @@ namespace Hyerin
         List<KeyCode> keys = new List<KeyCode>();
         List<KeyCode> pattern = new List<KeyCode>();
 
-        private void Start()
+        public Moru.Box pl_box;
+
+
+        private void OnEnable()
         {
             isPlay = true;
             index = 0;
@@ -35,22 +38,33 @@ namespace Hyerin
             packingUI.showKeyCode();
         }
 
+        public void OnDisable()
+        {
+            if(Player.Instance)
+            {
+                Player.Instance.state = Player.State.Movable;
+            }
+        }
+
         private void Update()
         {
-            time -= Time.deltaTime;
+
             // 오답 키를 눌렀다면 재시작합니다.
             if (isPlay)
             {
-                if(time <= 0)
+                time -= Time.deltaTime;
+                //시간안에 입력못함
+                if (time <= 0)
                 {
-                    isPlay=false;
+                    isPlay = false;
                     time = 3f;
                     Debug.Log("시간초과");
                     score -= 100;
                     wrongCnt++;
+                    packingUI.updateSuccess(false, index);
                     if (wrongCnt < 3) StartCoroutine(Restart());
                 }
-                if (Input.anyKeyDown)
+                if (Input.anyKeyDown && !Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetMouseButton(2))
                 {
                     bool is_correct = Input.GetKeyDown(pattern[index]);
                     packingUI.updateSuccess(is_correct, index);
@@ -63,7 +77,7 @@ namespace Hyerin
                         if (wrongCnt < 3) StartCoroutine(Restart());
                     }
                 }
-                if (index == 7 || wrongCnt==3)
+                if (index == 7 || wrongCnt == 3)
                 {
                     isPlay = false;
                     StartCoroutine(End());
@@ -74,7 +88,8 @@ namespace Hyerin
         // 7개의 키를 랜덤으로 생성합니다. (중복 허용)
         private void MakePattern()
         {
-            for(int i=0; i<7; i++)
+            pattern.Clear();
+            for (int i = 0; i < 7; i++)
             {
                 int rand = Random.Range(0, keys.Count);
                 pattern.Add(keys[rand]);
@@ -96,7 +111,8 @@ namespace Hyerin
         {
             yield return new WaitForSeconds(0.5f);
             packingUI.gameObject.SetActive(false);
-            Player.Instance.carryingObject.GetComponent<Moru.Box>().CompletePacking(score);
+            pl_box.CompletePacking(score);
+            pl_box = null;
             yield return null;
         }
     }

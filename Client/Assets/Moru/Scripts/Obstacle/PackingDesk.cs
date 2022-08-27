@@ -58,7 +58,9 @@ namespace Moru
                 pl.Lay();
                 //포장작업 실시
                 if (GameManager.Instance.Pop_MiniGameUI != null)
-                { 
+                {
+                    var Minigame = GameManager.Instance.Pop_MiniGameUI;
+                    Minigame.GetComponent<MiniGame>().pl_box = this.box;
                     GameManager.Instance.Pop_MiniGameUI?.SetActive(true);
                     pl.state = Player.State.Audition;
                 }
