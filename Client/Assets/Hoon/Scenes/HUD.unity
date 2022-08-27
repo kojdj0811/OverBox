@@ -736,9 +736,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e30db254ff70c84ba49463b5025a63d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestSet:
-  - {fileID: 11400000, guid: 64fa0a81fd17bbd479ce02b79f3a6127, type: 2}
-  - {fileID: 11400000, guid: 016fabafdbd1854448af4c32c5125290, type: 2}
   requestPrefab: {fileID: 4952180387549126893, guid: b5a9a5df34d7cee429168e517edc280e, type: 3}
   generatePos: {fileID: 197656117}
   orderList: []
@@ -2586,6 +2583,7 @@ GameObject:
   - component: {fileID: 933287442}
   - component: {fileID: 933287441}
   - component: {fileID: 933287443}
+  - component: {fileID: 933287444}
   m_Layer: 5
   m_Name: Storage
   m_TagString: Untagged
@@ -2681,6 +2679,19 @@ MonoBehaviour:
   m_Spacing: {x: 5, y: 5}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &933287444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933287439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f718a9f908e285b498c5458a2f4efe29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  productCnt: 010000001700000004000000050000000600000007000000
 --- !u!1 &939747057
 GameObject:
   m_ObjectHideFlags: 0
@@ -4199,6 +4210,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2051732554}
   m_CullTransparentMesh: 1
+--- !u!1 &2118546995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2118546997}
+  - component: {fileID: 2118546996}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2118546996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118546995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdb922cbba26e5e418c6d3376c003ded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curCoin: 0
+  delivery_Time: 5
+  deliveryManager:
+    computer: []
+  ProductPatten_CSV: {fileID: 4900000, guid: 47e7d03c07407bd449cc4869f7aa1f63, type: 3}
+  requests: []
+  Pop_OrderUI: {fileID: 0}
+--- !u!4 &2118546997
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118546995}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1070.5405, y: 428.95822, z: -13.470744}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2145042990
 GameObject:
   m_ObjectHideFlags: 0
