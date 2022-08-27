@@ -6,19 +6,16 @@ using UnityEngine;
 
 public class StorageController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public int[] productCnt = new int[6];
-
     private void Start()
     {
-        updateProductCnt(productCnt);
+        updateProductCnt();
     }
-    public void updateProductCnt(int[] pCnt)
+    public void updateProductCnt()
     {
-        for(int i=0;i<6;i++)
+        for(int i=0;i<(int)Moru.MoruDefine.Product.MAX;i++)
         {
-
-            transform.GetChild(i).Find("ProductCnt").GetComponent<TextMeshProUGUI>().text = pCnt[i].ToString();
+            transform.GetChild(i).Find("ProductCnt").GetComponent<TextMeshProUGUI>().text = Moru.GameManager.Instance.storageBox[(Moru.MoruDefine.Product)i].CurSavedCount.ToString();
         }
+
     }
 }
