@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class UITimer : MonoBehaviour
 {
-
     public int minute;
     public int second;
     private bool isOver;

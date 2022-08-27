@@ -11,6 +11,7 @@ namespace Moru
     /// </summary>
     public class Desk : Obstacle
     {
+        [Sirenix.OdinInspector.ShowInInspector]
         public bool isBoxExist => box ? true : false;
         [SerializeField]
         private Transform box_Spot_transform;
@@ -53,21 +54,30 @@ namespace Moru
             if (isBoxExist)
             {
                 //박스가 있을 경우, 플레이어 핸드가 비어있지 않고 박스가 아니라면 물건을 집어넣습니다.
-                if (pl.carryingIndex != 8 && pl.carryingIndex != 7)
+                if (pl.carryingIndex < 7)
                 {
                     //어떤 물건을 집어넣을지는 플레이어의 핸드에서 참조합니다. 일단 임시값 랜덤
                     box.Put_Product((MoruDefine.Product)pl.carryingIndex);
+                    pl.Lay();
                 }
-                //플레이어가 들고 있는게 박스라면 박스를 데스크에 올려둡니다.
-                else if (pl.carryingIndex == 7) 
-                {
-                    //플레이어가 들고 있는 박스를 데스크의 위치로 변경합니다.
-                    SetBoxInit(pl.carryingBox.GetComponent<Box>());
-                }
+
                 //플레이어 핸드가 비어있다면 상자를 집어듭니다.
-                else
+                else if (pl.carryingIndex == 8)
                 {
                     //박스를 집어드는 처리는 플레이어에서 조작할 예정
+                    Debug.Log($"박스를 집어드는 캐리이벤트");
+                    pl.Carry(7, box);
+                    this.box = null;
+                }
+            }
+            else
+            {
+                //플레이어가 들고 있는게 박스라면 박스를 데스크에 올려둡니다.
+                if (pl.carryingIndex == 7)
+                {
+                    //플레이어가 들고 있는 박스를 데스크의 위치로 변경합니다.
+                    SetBoxInit(pl.carryingObject.GetComponent<Box>());
+                    pl.Lay();
                 }
             }
         }

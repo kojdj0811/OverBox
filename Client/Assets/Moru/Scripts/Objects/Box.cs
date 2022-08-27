@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Moru
 {
@@ -9,6 +10,7 @@ namespace Moru
         /// <summary>
         /// 현재 박스가 담고 있는 상품목록들입니다.
         /// </summary>
+        [ShowInInspector]
         public Dictionary<MoruDefine.Product, int> cur_PuttingItem = new Dictionary<MoruDefine.Product, int>();
 
         public int DiscorrectCount = 0;

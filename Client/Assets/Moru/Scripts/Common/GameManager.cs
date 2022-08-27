@@ -10,7 +10,25 @@ namespace Moru
 
         #region Field
 
-        #region Delivery
+        #region Timer
+
+        /// <summary>
+        /// 게임종료는 타이머가 모두 종료되거나 오더 리스트가 0이 되면 게임이 종료되도록 구현합니다.
+        /// </summary>
+        [BoxGroup("타이머 관련"), LabelText("최대 플레이 타임")]
+        public float startPlayTime = 180f;
+        /// <summary>
+        /// 현재 진행중인 게임의 플레이타임입니다.
+        /// </summary>
+        [BoxGroup("타이머 관련"), LabelText("현재 플레이 타임")]
+        public float cur_PlayTime = 0f;
+
+        public bool isGameOver = false;
+
+
+        #endregion
+
+        #region Score
         /// <summary>
         /// 유저의 현재 스코어입니다.
         /// </summary>
@@ -25,7 +43,11 @@ namespace Moru
         public static int prd_Score = 20;
 
         [BoxGroup("점수 관련"), LabelText("유저가 아재기믹 틀리면 하나당 깎이는 점수")]
-        public static int discount_Score = 2000;
+        public static float discount_Score = 2000;
+
+        #endregion
+
+        #region Delivery
 
         /// <summary>
         /// 유저의 현재 코인입니다.
@@ -82,7 +104,6 @@ namespace Moru
 
         #endregion
 
-
         #region BOX
 
         /// <summary>
@@ -109,7 +130,6 @@ namespace Moru
         public SpawnBoxDesk spawnDesk;
         #endregion
 
-
         #endregion
 
         #region UIReference
@@ -119,8 +139,13 @@ namespace Moru
         /// </summary>
         [BoxGroup("UI"), LabelText("발주용 팝업 UI")]
         public GameObject Pop_OrderUI;
+        [BoxGroup("UI"), LabelText("미니게임용 팝업 UI")]
+        public GameObject Pop_MiniGameUI;
         [BoxGroup("UI"), LabelText("상품 아이콘들"), SerializeField]
         private List<Sprite> Icon_Images;
+
+        [BoxGroup("UI"), LabelText("게임종료 UI"), SerializeField]
+        private GameObject Pop_GameOverUI;
 
         #endregion
 
@@ -172,7 +197,7 @@ namespace Moru
             spawnDesk = FindObjectOfType<SpawnBoxDesk>(true);
             //박스를 소환합니다.
             spawnDesk.OnSpawn(Box_prefap);
-            
+
         }
 
         private void Update()
@@ -182,13 +207,20 @@ namespace Moru
             {
                 deliveryManager.Arrive();
                 cur_Delivery_Time = 0;
-                Debug.LogError("상품 도착!");
+                //Debug.LogError("상품 도착!");
             }
 
             cur_spawnBoxTime += Time.deltaTime;
-            if(cur_Box_Exist_Count < maxCount_BoxExist)
+            if (cur_Box_Exist_Count < maxCount_BoxExist)
             {
                 UpdateSpawn();
+            }
+
+            //플레이타임이 초과되었을 때
+            cur_PlayTime += Time.deltaTime;
+            if (cur_PlayTime >= startPlayTime)
+            {
+                //게임오버가 됩니다.
             }
         }
 
@@ -198,6 +230,9 @@ namespace Moru
             deliveryManager.OnOrderItem(items);
         }
 
+        /// <summary>
+        /// 박스를 없앨때 호출되도록 합니다.
+        /// </summary>
         public void OnRemoveBox()
         {
             cur_Box_Exist_Count--;
@@ -231,17 +266,25 @@ namespace Moru
 
             //물건 수만큼 더하기
             int i = 0;
-            foreach(var inteager in prd_Arry)
+            foreach (var inteager in prd_Arry)
             {
                 i += inteager;
             }
             getScore += i * prd_Score;
 
             //아재기믹 틀린 개수만큼 점수 빼기
-            getScore -= DiscorreCount * discount_Score;
+            getScore /= (int)(DiscorreCount * discount_Score);
 
             //점수 업데이트
             curScore += getScore;
+        }
+
+        /// <summary>
+        /// 게임의 승/패와 관계없이 게임오버가 호출됩니다.
+        /// </summary>
+        public void GameOver()
+        {
+            //게임 점수에 따라서 차등적인 엔딩이 보여집니다.
         }
     }
 }

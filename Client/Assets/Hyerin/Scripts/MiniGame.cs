@@ -70,7 +70,7 @@ namespace Hyerin
         // 게임을 종료합니다.
         private void End()
         {
-            Player.Instance.carryingBox.GetComponent<Moru.Box>().CompletePacking(score);
+            Player.Instance.carryingObject.GetComponent<Moru.Box>().CompletePacking(score);
         }
     }
 

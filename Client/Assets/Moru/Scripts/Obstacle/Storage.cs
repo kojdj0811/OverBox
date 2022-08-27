@@ -22,10 +22,6 @@ namespace Moru
             } 
         }
 
-        //테스트 전용 변수입니다.
-        public bool TestToggle = false;
-
-
 
         /// <summary>
         /// 아이템을 하나 꺼냅니다.
@@ -33,6 +29,7 @@ namespace Moru
         private void PullItem()
         {
             //플레이어가 아이템을 아무것도 들고 있지 않다면
+            //스토리지에서 검사 한번 하니까  우선 그냥 넘어가기
             if(true)
             {
                 //상품이 충분하다면
@@ -45,9 +42,6 @@ namespace Moru
                 }
             }
 
-            //테스트 전용 코드입니다.
-            TestToggle = !TestToggle;
-            //테스트 전용 코드입니다.
         }
 
         /// <summary>
@@ -67,9 +61,7 @@ namespace Moru
             }
 
 
-            //테스트 전용 코드입니다.
-            TestToggle = !TestToggle;
-            //테스트 전용 코드입니다.
+
         }
 
         private void OnCollisionStay(Collision collision)
@@ -90,15 +82,24 @@ namespace Moru
         {
             //일단 테스트용입니다.
             //플레이어가 아이템 들고 있는지 판별
-            if(pl)
+            if(pl.carryingObject != null)
             {
                 //플레이어가 아이템을 들고 있다면 어떤 아이템을 들고 있는지 판별
-                TrySaveItem();
+                if(pl.carryingIndex == (int)TargetProduct)
+                {
+                    TrySaveItem();
+                    pl.Lay();
+                }
+                else
+                {
+                    Debug.Log($"같은 인덱스값이 아니라서 보관 안됨 들고계셈 // 시도 : {pl.carryingIndex} // 타겟 : {(int)TargetProduct}");
+                }
             }
             //플레이어가 아이템을 들고 있지 않다면
-            else if(!TestToggle)
+            else if(pl.carryingObject == null)
             {
                 PullItem();
+                pl.Carry((int)TargetProduct);
             }
 
         }

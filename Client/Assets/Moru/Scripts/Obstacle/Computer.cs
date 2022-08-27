@@ -16,6 +16,9 @@ namespace Moru
         public bool isAlarm { get; private set; }
         static DeliveryManager.DeliveryItem deliveryItem;
 
+        public Alarm alarm;
+        public Sprite sprite;
+
         void Start()
         {
             //델리게이트 등록
@@ -36,7 +39,10 @@ namespace Moru
         {
             isAlarm = true;         //알람이 울리는 상태로 설정
             Debug.Log("알람이 울립니다");
-
+            if (alarm != null)
+            {
+                alarm.Alarming(sprite, this.transform);
+            }
         }
 
         /// <summary>
@@ -92,6 +98,7 @@ namespace Moru
                 else Debug.Log("딜리버리가 널입니다.");
                 //알람을 끕니다.
                 isAlarm = false;
+                alarm?.gameObject.SetActive(false);
             }
 
 
@@ -99,13 +106,16 @@ namespace Moru
             //만일 플레이어가 물건을 들고 있다면 상호작용이 불가능합니다.
             if (pl)
             {
-
+                //return;
             }
             //만일 플레이어가 오더가 가능한 상태라면 
             else if (isOrderable)
             {
+                //플레이가 조작이 불가능한 상태되도록
+                pl.state = Player.State.Computer;
                 //오더창 UI를 폅니다.
                 GameManager.Instance.Pop_OrderUI?.SetActive(true);
+
             }
             else
             {

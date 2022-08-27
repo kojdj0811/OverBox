@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Moru;
 
 namespace Hyerin
 {
@@ -29,7 +30,16 @@ namespace Hyerin
 
         public int carryingIndex; // 0~6:물건, 7:박스, 8:없음
         public State state;
-        public GameObject carryingBox;
+        public GameObject carryingObject;
+
+        /// <summary>
+        /// 알람을 담당하는 오브젝트가 담겨져있습니다.
+        /// </summary>
+        public Carryed_Image dummy_PopupAlarm;
+        /// <summary>
+        /// 플레이어가 들고 있는 박스 정보를 담고있습니다.
+        /// </summary>
+        public Box myBox;
 
         private bool isSpacebarPressed;
         // 발주 상품 목록
@@ -38,6 +48,11 @@ namespace Hyerin
         private Rigidbody rb;
 
 
+        protected override void Awake()
+        {
+            base.Awake();
+            carryingIndex = 8;
+        }
         void Start()
         {
             carryingIndex = 8;
@@ -46,12 +61,13 @@ namespace Hyerin
             anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody>();
         }
+#if UNITY_EDITOR
         void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(transform.position, new Vector3(boxSize, boxSize, boxSize));
         }
-
+#endif
         /// <summary>
         /// 키 입력으로 플레이어의 이동을 처리합니다.
         /// </summary>
@@ -88,122 +104,138 @@ namespace Hyerin
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 // 일정 거리 내에 있을 때
-                if(hitColliders.Length>0 && state == State.Movable)
+                if (hitColliders.Length > 0 && state == State.Movable)
                 {
-                    // 박스캐스트에 닿은 오브젝트의 상호작용 메서드를 호출합니다.
-                    hitColliders[0].GetComponent<Obstacle>().OnInteractive(this);
-
-                    // 플레이어의 상태를 변경합니다.
-                    if (hitColliders[0].CompareTag(Box) || hitColliders[0].CompareTag(Storage))
+                    Obstacle obj = null;
+                        for (int i = 0; i < hitColliders.Length; i++)
                     {
-                        Carry(hitColliders[0].gameObject);
-                        isSpacebarPressed = true;
+                        // 박스캐스트에 닿은 오브젝트의 상호작용 메서드를 호출합니다.
+                        if (hitColliders[i].TryGetComponent<Obstacle>(out obj))
+                        {
+                            Debug.Log($"{obj.gameObject.name}");
+                            obj.OnInteractive(this);
+                            break;
+                        }
+
                     }
-                    if (hitColliders[0].CompareTag(Computer))
-                    {
-                        Debug.Log("컴퓨터 사용");
-                        state = State.Computer;
-                        isSpacebarPressed = true;
-                    }
-                    if (hitColliders[0].CompareTag(ConveyorBelt))
-                    {
-                        state = State.Audition;
-                    }
-                }
 
-                // 컴퓨터 사용 상태라면 발주 주문을 확정합니다.
-                if (state == State.Computer && !isSpacebarPressed)
-                {
-                    Debug.Log("발주됨");
-                    Moru.MoruDefine.delegate_Delivery?.Invoke(items);
+                    //Old
+                    //// 플레이어의 상태를 변경합니다.
+                    //if (hitColliders[0].CompareTag(Box) || hitColliders[0].CompareTag(Storage))
+                    //{
+                    //    Carry(hitColliders[0].gameObject);
+                    //    isSpacebarPressed = true;
+                    //}
+                    //if (hitColliders[0].CompareTag(Computer))
+                    //{
+                    //    Debug.Log("컴퓨터 사용");
+                    //    state = State.Computer;
+                    //    isSpacebarPressed = true;
+                    //}
+                    //if (hitColliders[0].CompareTag(ConveyorBelt))
+                    //{
+                    //    state = State.Audition;
+                    //}
                 }
+                //Old
+                //// 컴퓨터 사용 상태라면 발주 주문을 확정합니다.
+                //if (state == State.Computer && !isSpacebarPressed)
+                //{
+                //    Debug.Log("발주됨");
+                //    Moru.MoruDefine.delegate_Delivery?.Invoke(items);
+                //}
 
-                // 물건을 들고 있었다면 내려놓습니다.
-                if (IsCarrying() && !isSpacebarPressed) Lay();
+                //// 물건을 들고 있었다면 내려놓습니다.
+                //if (IsCarrying() && !isSpacebarPressed) Lay();
             }
 
-            #region QWEASD 처리
-            if ( Input.GetKeyDown(KeyCode.Q))
-            {
-                switch (state)
-                {
-                    case State.Computer:
+            #region QWEASD 처리 (주석처리)
+            //if ( Input.GetKeyDown(KeyCode.Q))
+            //{
+            //    switch (state)
+            //    {
+            //        case State.Computer:
 
-                        break;
-                    case State.Audition:
-                        break;
-                    default:
-                        break;
-                }
-            }
+            //            break;
+            //        case State.Audition:
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
 
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                switch (state)
-                {
-                    case State.Computer:
-                        break;
-                    case State.Audition:
-                        break;
-                    default:
-                        break;
-                }
-            }
+            //if (Input.GetKeyDown(KeyCode.W))
+            //{
+            //    switch (state)
+            //    {
+            //        case State.Computer:
+            //            break;
+            //        case State.Audition:
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
 
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                switch (state)
-                {
-                    case State.Computer:
-                        break;
-                    case State.Audition:
-                        break;
-                    default:
-                        break;
-                }
-            }
+            //if (Input.GetKeyDown(KeyCode.E))
+            //{
+            //    switch (state)
+            //    {
+            //        case State.Computer:
+            //            break;
+            //        case State.Audition:
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
 
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                switch (state)
-                {
-                    case State.Computer:
-                        break;
-                    case State.Audition:
-                        break;
-                    default:
-                        break;
-                }
-            }
+            //if (Input.GetKeyDown(KeyCode.A))
+            //{
+            //    switch (state)
+            //    {
+            //        case State.Computer:
+            //            break;
+            //        case State.Audition:
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
 
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                switch (state)
-                {
-                    case State.Computer:
-                        break;
-                    case State.Audition:
-                        break;
-                    default:
-                        break;
-                }
-            }
+            //if (Input.GetKeyDown(KeyCode.S))
+            //{
+            //    switch (state)
+            //    {
+            //        case State.Computer:
+            //            break;
+            //        case State.Audition:
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
 
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                switch (state)
-                {
-                    case State.Computer:
-                        break;
-                    case State.Audition:
-                        break;
-                    default:
-                        break;
-                }
-            }
+            //if (Input.GetKeyDown(KeyCode.D))
+            //{
+            //    switch (state)
+            //    {
+            //        case State.Computer:
+            //            break;
+            //        case State.Audition:
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
             #endregion
+
         }
 
+        /// <summary>
+        /// 0~7 true : 들고 있다., 8 =false : 아니다
+        /// </summary>
+        /// <returns></returns>
         public bool IsCarrying()
         {
             return carryingIndex < 8;
@@ -212,8 +244,9 @@ namespace Hyerin
         /// <summary>
         /// 물건을 듭니다.
         /// </summary>
-        private void Carry(GameObject obj)
+        public void Carry(int targetIndex, Box box = null)
         {
+            /*old
             if (IsCarrying()) return;
 
             if (obj.name == Box)
@@ -230,20 +263,66 @@ namespace Hyerin
                 //...
                 carryingIndex = (int)obj.GetComponent<Moru.Storage>().TargetProduct;
             }
+            */
+            //8이면 fasle, 즉 핸드 비어있음
+            if (IsCarrying())
+            {
+                Debug.Log($"내 손 꽉차있다");
+                return;
+            }
+
+            //상자가 아님
+            if (targetIndex != 7)
+            {
+                //현재 끌고 다니고 있는 걸 지웁니다.
+                carryingObject = null;
+                //자신의 현재 인덱스를 타겟인덱스로 변경
+                carryingIndex = targetIndex;
+                //define의 적절한 아이콘을 불러와 캐릭터에게 붙여 실행시킨다.
+                var sprite = MoruDefine.Item_Icon[carryingIndex];
+                dummy_PopupAlarm.Alarming(sprite, this.transform);
+                carryingObject = dummy_PopupAlarm.gameObject;
+            }
+
+            //상자임
+            else if (targetIndex == 7)
+            {
+                Debug.Log("상자를 집어들었다.");
+                //현재 끌고다니고 있는 걸 지웁니다.
+                carryingObject = null;
+                //자신의 현재 인덱스를 타겟인덱스로 변경
+                carryingIndex = targetIndex;
+                //define은 아니고 박스를 자신의 자식오브젝트로 변경
+                if (box != null)
+                {
+                    this.myBox = box;
+                    box.gameObject.transform.SetParent(this.transform);
+                    box.gameObject.transform.localPosition = new Vector3(0.5f, 0.5f, 0);
+                    carryingObject = box.gameObject;
+                }
+            }
         }
-        
+
         /// <summary>
         /// 물건을 내려놓습니다.
         /// </summary>
-        private void Lay()
+        public void Lay()
         {
             Debug.Log("내려놓음");
-            if (carryingBox)
+            //여긴 물건들임
+            if (carryingIndex < 7)
             {
-                carryingBox.transform.SetParent(null);
-                carryingBox = null;
+                carryingObject = null;
+                dummy_PopupAlarm.gameObject.SetActive(false);
             }
+            else if (carryingIndex == 7)
+            {
+                carryingObject = null;
+                dummy_PopupAlarm.gameObject.SetActive(false);
+            }
+            myBox = null;
             carryingIndex = 8;
+
         }
     }
 }
