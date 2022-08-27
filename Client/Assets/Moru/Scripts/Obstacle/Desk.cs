@@ -59,6 +59,8 @@ namespace Moru
                     //어떤 물건을 집어넣을지는 플레이어의 핸드에서 참조합니다. 일단 임시값 랜덤
                     box.Put_Product((MoruDefine.Product)pl.carryingIndex);
                     pl.Lay();
+                    //사운드재생
+                    SoundManager.PlaySFX(SoundManager.SFXClips.PutBox);
                 }
 
                 //플레이어 핸드가 비어있다면 상자를 집어듭니다.

@@ -11,9 +11,22 @@ public class SoundManager : SingleToneMono<SoundManager>
     public static AudioMixer mixer;
     [ShowInInspector]
     private static AudioMixerGroup BGM;
+    [ShowInInspector]
     private static AudioMixerGroup SFX;
 
-    public static AudioSource bgm_AudioSource;
+    [SerializeField]
+    private AudioClip BGMclip;
+    [SerializeField]
+    private AudioClip[] sfxclips;
+
+    public enum SFXClips
+    {
+        Computer, Alarm, PutBox, Convaynor
+    }
+
+    
+    public  AudioSource bgm_AudioSource;
+    public  AudioSource SFX_AudioSource;
 
     protected override void Awake()
     {
@@ -27,6 +40,12 @@ public class SoundManager : SingleToneMono<SoundManager>
         bgm_AudioSource = GetComponent<AudioSource>();
         bgm_AudioSource.outputAudioMixerGroup = BGM;
         bgm_AudioSource.loop = true;
+
+    }
+
+    private void Start()
+    {
+        PlayBGM(BGMclip);
     }
 
     public void OnLevelWasLoaded(int level)
@@ -44,13 +63,15 @@ public class SoundManager : SingleToneMono<SoundManager>
 
     public static void PlayBGM(AudioClip clip)
     {
-        bgm_AudioSource.loop = true;
-        bgm_AudioSource.clip = clip;
-        bgm_AudioSource.Play();
+        var SM = SoundManager.Instance;
+        SM.bgm_AudioSource.loop = true;
+        SM.bgm_AudioSource.clip = clip;
+        SM.bgm_AudioSource.Play();
     }
 
-    public static void PlaySFX()
+    public static void PlaySFX(SFXClips clip)
     {
-
+        var SM = SoundManager.Instance;
+        SM.SFX_AudioSource.PlayOneShot(SM.sfxclips[(int)clip]);
     }
 }

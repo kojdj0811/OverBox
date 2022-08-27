@@ -28,14 +28,23 @@ public class ComputerUIManager : MonoBehaviour
     private Computing_Order[] computing = new Computing_Order[6];
 
     [SerializeField]
+    private Text[] texts;
+
+
+    [SerializeField]
     private KeyCode[] inputSet = { KeyCode.Q, KeyCode.W, KeyCode.E, KeyCode.A, KeyCode.S, KeyCode.D };
     int[] ordering_Arr;
 
     public Color EnableColor;
     public Color DisableColor;
+
+
+    private int cur_Coin_GM;
     
     private void OnEnable()
     {
+        cur_Coin_GM = Moru.GameManager.Instance.curCoin; //¾èº¹
+
         least_Coins.text =  Moru.GameManager.Instance.curCoin.ToString();
         foreach (var comp in computing)
         {
@@ -43,6 +52,19 @@ public class ComputerUIManager : MonoBehaviour
             comp.image.color = EnableColor;
         }
         ordering_Arr = new int[6] { 0, 0, 0, 0, 0, 0 };
+        for(int i = 0; i< texts.Length; i++)
+        {
+            texts[i].text = computing[i].howMany.ToString();
+        }
+    }
+
+    private void OnDisable()
+    {
+        Moru.GameManager.Instance.curCoin = cur_Coin_GM;
+
+        Player.Instance.state = Player.State.Movable;
+        Moru.MoruDefine.delegate_Delivery.Invoke(ordering_Arr);
+        Moru.GameManager.Instance.curCoin = Moru.GameManager.MaxCoin;
     }
 
 
@@ -52,13 +74,13 @@ public class ComputerUIManager : MonoBehaviour
         {
             if (Input.GetKeyUp(inputSet[i]))
             {
-                if (Moru.GameManager.Instance.curCoin >= computing[i].price && !computing[i].isAlreadyBuy)
+                if (cur_Coin_GM >= computing[i].price && !computing[i].isAlreadyBuy)
                 {
                     ordering_Arr[i] += computing[i].howMany;
-                    Moru.GameManager.Instance.curCoin -= computing[i].price;
+                    cur_Coin_GM -= computing[i].price;
                     computing[i].isAlreadyBuy = true;
                     computing[i].image.color = DisableColor;
-                    least_Coins.text =  Moru.GameManager.Instance.curCoin.ToString();
+                    least_Coins.text = cur_Coin_GM.ToString();
                 }
             }
         }
@@ -76,9 +98,7 @@ public class ComputerUIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Player.Instance.state = Player.State.Movable;
-            Moru.MoruDefine.delegate_Delivery.Invoke(ordering_Arr);
-            Moru.GameManager.Instance.curCoin = Moru.GameManager.MaxCoin;
+     
 
             gameObject.SetActive(false);
 

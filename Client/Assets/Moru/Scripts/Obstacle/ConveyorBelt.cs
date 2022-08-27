@@ -36,6 +36,10 @@ namespace Moru
         {
             if (box == null) return;
 
+            //사운드재생
+            SoundManager.PlaySFX(SoundManager.SFXClips.Convaynor);
+
+
             //박스의 현재 담겨진 아이템 종류입니다.
             //박스의 딕셔너리형을 배열로 변환합니다.
             var boxProducts = box.cur_PuttingItem;
@@ -82,6 +86,7 @@ namespace Moru
                     
                     var succussObj = Instantiate(Success_Prefap, transform.position, Quaternion.identity);
                     succussObj.transform.SetParent(obj.transform);
+                    
                 }
                 else
                 {

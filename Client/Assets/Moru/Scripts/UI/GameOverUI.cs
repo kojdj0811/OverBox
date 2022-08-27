@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
+
 
 public class GameOverUI : MonoBehaviour
 {
     public Text text;
+    public TextMeshProUGUI result_Text;
     public Text score;
     bool isClick = false;
     public Animator anim;
+    public Image Simbol;
+    public List<Sprite> simbol_sprite;
+
     public enum GameValue { Perfect, Normal, Bad }
     public void SetGameOverView(GameValue value, int score)
     {
@@ -18,22 +24,29 @@ public class GameOverUI : MonoBehaviour
         switch (value)
         {
             case GameValue.Perfect:
+                result_Text.text = "Happy Ending";
                 text.text = "모든 참가자들이 보급 상자를 받았어요!\n" +
                             "완벽한 포장 상태에 참가자분들이 감탄을 금치 못했습니다.\n" +
                             "포포님 덕분에 풍족한 게임잼이 되었어요~!";
-                PerpectGOODGOOD();
+                Simbol.sprite = simbol_sprite[0];
                 break;
             case GameValue.Normal:
+                result_Text.text = "Normal Ending";
                 text.text = "대부분의 참가자들이 만족스러운 보급 상자를 받았습니다!\n"+
                             "다만, 개봉 금지 스티커가 안 붙은 상자들이 있었어요.\n"+
                             "다음 번엔 모든 참가자들이 기쁘게 보급을 받을 수 있겠죠?";
+                Simbol.sprite = simbol_sprite[1];
                 break;
             case GameValue.Bad:
+                result_Text.text = "Bad Ending";
                 text.text = "보급 상자를 받지 못한 참가자가 있었어요.\n"+
                             "상실감을 느낀 참가자들의 게임 개발 능률이 떨어져버렸습니다..\n"+
                             "다음에는 꼭 모두에게 상자 배달을 성공할 수 있길!";
+                Simbol.sprite = simbol_sprite[2];
                 break;
         }
+        PerpectGOODGOOD();
+
     }
 
     private void Update()

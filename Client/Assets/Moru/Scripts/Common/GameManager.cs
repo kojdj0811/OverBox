@@ -103,8 +103,24 @@ namespace Moru
         [BoxGroup("오더 관련"), LabelText("오더 종류")]
         public MoruDefine.OrderRequest[] requests;
 
-        [BoxGroup("오더 관련"), LabelText("오더들 이름")]
-        public List<string> orderistNames;
+        [BoxGroup("오더 관련"), LabelText("고객정보")]
+        public List<Customer> customers;
+        [BoxGroup("오더 관련"), LabelText("손님들 CSV"), SerializeField]
+        private TextAsset Customer_CSV;
+        [BoxGroup("오더 관련"), LabelText("손님들 CSV"), SerializeField]
+        private CSV.CSVReader.CSVData customerCSV_Data;
+
+        [System.Serializable]
+        public struct Customer
+        {
+            public int job;
+            public string name;
+            public Customer(int _job, string _name)
+            {
+                job = _job;
+                name = _name;
+            }
+        }
 
         #endregion
 
@@ -180,6 +196,20 @@ namespace Moru
                 }
             }
 
+            //손님 데이터 할당 에러발생!
+            Customer_CSV = Resources.Load<TextAsset>("Customer");
+            customerCSV_Data = CSV.CSVReader.Initialize_TextAsset(Customer_CSV, "Customer");
+            customers = new List<Customer>();
+            for(int i = 1; i < customerCSV_Data.columnCount ; i++)
+            {
+                if (i == 0) { }
+                else
+                {
+                    customers.Add(new Customer(int.Parse(customerCSV_Data.GetData(i, 0)), customerCSV_Data.GetData(i, 1)));
+                    //customers[i - 1] = new Customer(int.Parse(customerCSV_Data.GetData(i,  0)), customerCSV_Data.GetData(i, 1));
+                }
+            }
+
             //딜리버리 매니저를 초기화합니다.
             var Computers = FindObjectsOfType<Computer>(true);
             deliveryManager.OnInitialize(Computers);
@@ -191,7 +221,7 @@ namespace Moru
             {
                 for (int i = 0; i < (int)MoruDefine.Product.MAX; i++)
                 {
-                    storageBox.Add((MoruDefine.Product)i, new MoruDefine.StorageBox(30, 0));
+                    storageBox.Add((MoruDefine.Product)i, new MoruDefine.StorageBox(99, 5));
                 }
             }
             Icon_Images = new List<Sprite>();

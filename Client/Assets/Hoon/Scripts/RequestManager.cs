@@ -37,13 +37,13 @@ public class RequestManager : MonoBehaviour
         {
             return;
         }
-        var orderName = Moru.GameManager.Instance.orderistNames[Random.Range(0, Moru.GameManager.Instance.orderistNames.Count)];
-        Moru.GameManager.Instance.orderistNames.Remove(orderName);
+        var orderName = Moru.GameManager.Instance.customers[Random.Range(0, Moru.GameManager.Instance.customers.Count)];
+        Moru.GameManager.Instance.customers.Remove(orderName);
         Moru.MoruDefine.OrderRequest newRequest = requestSet[Random.Range(0, requestSet.Length)];
 
         GameObject obj = Instantiate(requestPrefab, generatePos);
 
-        obj.transform.Find("Recipe").GetComponent<RecipeController>().showProducts(newRequest.requestList, orderName);
+        obj.transform.Find("Recipe").GetComponent<RecipeController>().showProducts(newRequest.requestList, orderName.name, orderName.job);
         orderList.Add(newRequest);
 
 

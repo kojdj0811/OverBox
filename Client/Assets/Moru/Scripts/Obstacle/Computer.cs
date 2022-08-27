@@ -37,11 +37,25 @@ namespace Moru
         /// </summary>
         public void Alarm()
         {
-            isAlarm = true;         //알람이 울리는 상태로 설정
-            Debug.Log("알람이 울립니다");
-            if (alarm != null)
+            int count = 0;
+            if (deliveryItem != null)
             {
-                alarm.Alarming(sprite, this.transform);
+                foreach (var cnt in deliveryItem.items)
+                {
+                    count += cnt;
+                }
+            }
+            isAlarm = true;         //알람이 울리는 상태로 설정
+
+            if (count > 0)
+            {
+                if (alarm != null)
+                {
+                    alarm.Alarming(sprite, this.transform);
+                }
+                //사운드재생
+                SoundManager.PlaySFX(SoundManager.SFXClips.Alarm);
+                Debug.Log("알람이 울립니다");
             }
         }
 
@@ -68,6 +82,7 @@ namespace Moru
         /// <param name="_deliveryItem"></param>
         public void SetDeliveryItem(DeliveryManager.DeliveryItem _deliveryItem)
         {
+
             deliveryItem = _deliveryItem;
         }
 
@@ -115,6 +130,9 @@ namespace Moru
                 pl.state = Player.State.Computer;
                 //오더창 UI를 폅니다.
                 GameManager.Instance.Pop_OrderUI?.SetActive(true);
+
+                //사운드재생
+                SoundManager.PlaySFX(SoundManager.SFXClips.Computer);
 
             }
 
