@@ -10,6 +10,7 @@ public class ScoreController : MonoBehaviour
     private void Start()
     {
         updateScore();
+        Moru.MoruDefine.delegate_UpdateScore += updateScore;
     }
 
     public void updateScore()

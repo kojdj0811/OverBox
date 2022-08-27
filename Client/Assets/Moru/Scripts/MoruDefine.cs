@@ -57,6 +57,7 @@ namespace Moru
 
         public delegate void Delegate_UpdateStorage();
         public static Delegate_UpdateStorage delegate_UpdateStorage;
+        public static Delegate_UpdateStorage delegate_UpdateScore;
 
 
         #endregion
