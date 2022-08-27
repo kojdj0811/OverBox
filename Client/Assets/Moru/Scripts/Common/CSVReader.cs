@@ -129,6 +129,10 @@ namespace Moru.CSV
         }
         public static CSVData Initialize_TextAsset(TextAsset assets, object keys)
         {
+            if(textassets.ContainsKey(keys))
+            {
+                return textassets[keys];
+            }
             //스트링값을 담을 변수
             List<string[]> _value = new List<string[]>();
             int colunm = 0;

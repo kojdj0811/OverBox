@@ -1,13 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class ButtonEvnet : MonoBehaviour
+
+public class ButtonEvnet : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
-    // Start is called before the first frame update
-    public void chooseLight(GameObject button)
+    public void OnSelect(BaseEventData eventData)
     {
-       // if(button.GetComponent<Button>())
+        transform.GetChild(1).gameObject.SetActive(true);
+  
     }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        transform.GetChild(1).gameObject.SetActive(false);
+
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void ExitApplication()
+    {
+        Application.Quit();
+    }
+
+
 }

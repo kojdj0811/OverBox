@@ -15,13 +15,21 @@ namespace Moru
         /// <summary>
         /// 게임종료는 타이머가 모두 종료되거나 오더 리스트가 0이 되면 게임이 종료되도록 구현합니다.
         /// </summary>
-        [BoxGroup("타이머 관련"), LabelText("최대 플레이 타임")]
+        [BoxGroup("난이도 관련"), LabelText("최대 플레이 타임")]
         public float startPlayTime = 180f;
         /// <summary>
         /// 현재 진행중인 게임의 플레이타임입니다.
         /// </summary>
-        [BoxGroup("타이머 관련"), LabelText("현재 플레이 타임")]
+        [BoxGroup("난이도 관련"), LabelText("현재 플레이 타임")]
         public float cur_PlayTime = 0f;
+        [BoxGroup("난이도 관련"), LabelText("남은 손님")]
+        public int least_Costomer;
+        [BoxGroup("난이도 관련"), LabelText("받아야 하는 손님")]
+        public int max_Costomer = 30;
+        [BoxGroup("난이도 관련"), LabelText("최고점 기준점수")]
+        public int PerfectScore = 60000;
+        [BoxGroup("난이도 관련"), LabelText("중박 기준점수")]
+        public int NormalScore = 40000;
 
         public bool isGameOver = false;
 
@@ -95,6 +103,9 @@ namespace Moru
         [BoxGroup("오더 관련"), LabelText("오더 종류")]
         public MoruDefine.OrderRequest[] requests;
 
+        [BoxGroup("오더 관련"), LabelText("오더들 이름")]
+        public List<string> orderistNames;
+
         #endregion
 
         #region Inventory
@@ -147,12 +158,16 @@ namespace Moru
         [BoxGroup("UI"), LabelText("게임종료 UI"), SerializeField]
         private GameObject Pop_GameOverUI;
 
-        #endregion
+        [BoxGroup("UI"), LabelText("옵션 UI"), SerializeField]
+        private GameObject Pop_OptionUI;
 
+        #endregion
+        private static bool isFirstOpen = true;
         protected override void Awake()
         {
             base.Awake();
             //레시피패턴 할당
+
             ProductPatten_CSV = Resources.Load<TextAsset>("recipePatten");
             productCSV_Data = CSV.CSVReader.Initialize_TextAsset(ProductPatten_CSV, MoruDefine.ProductPatten_DicKey);
             requests = new MoruDefine.OrderRequest[productCSV_Data.columnCount - 2];
@@ -186,6 +201,7 @@ namespace Moru
                 Icon_Images.Add(img);
             }
             MoruDefine.Item_Icon = Icon_Images;
+            least_Costomer = max_Costomer;
         }
 
 
@@ -218,9 +234,16 @@ namespace Moru
 
             //플레이타임이 초과되었을 때
             cur_PlayTime += Time.deltaTime;
-            if (cur_PlayTime >= startPlayTime)
+            if (cur_PlayTime >= startPlayTime || least_Costomer == 0)
             {
                 //게임오버가 됩니다.
+                GameOver();
+            }
+
+            //옵션키를 열고닫음
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                Pop_OptionUI?.SetActive(!Pop_OptionUI.activeInHierarchy);
             }
         }
 
@@ -273,7 +296,7 @@ namespace Moru
             getScore += i * prd_Score;
 
             //아재기믹 틀린 개수만큼 ^1/2
-            for(int j =0; j < DiscorreCount; j++)
+            for (int j = 0; j < DiscorreCount; j++)
             {
                 getScore *= (int)discount_Score;
             }
@@ -288,7 +311,33 @@ namespace Moru
         /// </summary>
         public void GameOver()
         {
+            isGameOver = true;
+            Pop_GameOverUI.SetActive(true);
+            var cmp = Pop_GameOverUI.GetComponent<GameOverUI>();
+            if (least_Costomer > 0 || curScore < NormalScore)
+            {
+                cmp.SetGameOverView(GameOverUI.GameValue.Bad, curScore);
+                //배드 엔딩
+            }
             //게임 점수에 따라서 차등적인 엔딩이 보여집니다.
+            else if (curScore >= PerfectScore)
+            {
+                cmp.SetGameOverView(GameOverUI.GameValue.Perfect, curScore);
+                //최고의 엔딩
+            }
+            else if (curScore >= NormalScore && curScore < PerfectScore)
+            {
+                cmp.SetGameOverView(GameOverUI.GameValue.Normal, curScore);
+                //노말 엔딩
+            }
+        }
+
+
+        public void TestGameOver()
+        {
+            curScore = 1000000;
+            least_Costomer = 0;
+            GameOver();
         }
     }
 }

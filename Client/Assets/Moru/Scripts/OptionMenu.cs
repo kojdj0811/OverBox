@@ -13,4 +13,29 @@ public class OptionMenu : MonoBehaviour
     {
         SoundManager.mixer.SetFloat("sfx_Volume", value);
     }
+
+    public void OnSliderMaster(float value)
+    {
+        SoundManager.mixer.SetFloat("Master_Volume", value);
+    }
+
+    public void OnRestart()
+    {
+        var curScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(curScene);
+    }
+
+    public void OnExit()
+    {
+        Time.timeScale = 1;
+        this.gameObject.SetActive(false);
+    }
+
+    public void Update()
+    {
+        if(Time.timeScale != 0)
+        {
+            Time.timeScale = 0;
+        }
+    }
 }
