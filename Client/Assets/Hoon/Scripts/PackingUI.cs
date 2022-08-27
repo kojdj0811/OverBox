@@ -9,7 +9,7 @@ public class PackingUI : MonoBehaviour
     public List<KeyCode> keyCodeList;
     public Transform settingPos;
     private int maxCode = 7;
-    private int sequence = 0;
+    
 
     private void Awake()
     {
@@ -39,15 +39,15 @@ public class PackingUI : MonoBehaviour
         }
     }
 
-    public void updateSuccess(bool isCorrect)
+    public void updateSuccess(bool isCorrect,int idx)
     {
         if(isCorrect)
         {
-            settingPos.GetChild(sequence++).GetChild(1).GetComponent<Image>().color = new Color32(0, 255, 0, 100);
+            settingPos.GetChild(idx).GetChild(1).GetComponent<Image>().color = new Color32(0, 255, 0, 100);
         }
         else
         {
-            settingPos.GetChild(sequence++).GetChild(1).GetComponent<Image>().color = new Color32(255, 0, 0, 100);
+            settingPos.GetChild(idx).GetChild(1).GetComponent<Image>().color = new Color32(255, 0, 0, 100);
             StartCoroutine(stayAWhile());
         }
     }

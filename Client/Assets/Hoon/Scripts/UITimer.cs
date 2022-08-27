@@ -6,12 +6,19 @@ using TMPro;
 using System.Threading;
 using UnityEngine.UI;
 
-public class UITimer : MonoBehaviour
+
+public class TimeLimit
 {
     public int minute;
     public int second;
-    private bool isOver;
+    public bool isOver;
 
+    public TimeLimit(float startTime)
+    {
+        isOver = false;
+        minute = (int)(startTime / 60.0f);
+        second = (int)startTime % 60;
+    }
     public void tik()
     {
         if (minute == 0)
@@ -30,12 +37,19 @@ public class UITimer : MonoBehaviour
         }
         else second--;
     }
+}
 
-    public float deliveryLimit;
+public class UITimer : MonoBehaviour
+{
+
+    public TimeLimit timeLimit;
+    private float deliveryLimit;
 
     private void Start()
     {
-        isOver = false;
+
+        timeLimit = new TimeLimit(Moru.GameManager.Instance.startPlayTime);
+        deliveryLimit = Moru.GameManager.Instance.delivery_Time;
         StartCoroutine(tiktok());
 
     }
@@ -43,17 +57,16 @@ public class UITimer : MonoBehaviour
     IEnumerator tiktok()
     {
         var timeOutIMG = transform.Find("DeliveryLimit").GetComponent<Image>();
-        while (!isOver)
+        while (!timeLimit.isOver)
         {
-            tok();
-            transform.Find("TimeCnt").GetComponent<TextMeshProUGUI>().text = minute.ToString() + " : " + second.ToString();
+            timeLimit.tok();
+            transform.Find("TimeCnt").GetComponent<TextMeshProUGUI>().text = timeLimit.minute.ToString() + " : " + timeLimit.second.ToString();
             if (timeOutIMG.fillAmount == 1)
                 timeOutIMG.fillAmount = 0;
-            timeOutIMG.fillAmount += 1/ deliveryLimit;
-            Debug.Log(deliveryLimit);
+            timeOutIMG.fillAmount += 1 / deliveryLimit;
             yield return new WaitForSeconds(1.0f);
         }
-       
+
     }
 
 }

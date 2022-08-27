@@ -6256,6 +6256,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb922cbba26e5e418c6d3376c003ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startPlayTime: 180
+  cur_PlayTime: 0
+  isGameOver: 0
+  base_Score: 2000
+  prd_Score: 20
+  discount_Score: 0.5
   curCoin: 0
   delivery_Time: 5
   deliveryManager:
@@ -6267,8 +6273,10 @@ MonoBehaviour:
   cur_Box_Exist_Count: 0
   spawnBox_MinimumTerm: 0.5
   spawnDesk: {fileID: 0}
-  Pop_OrderUI: {fileID: 0}
+  Pop_OrderUI: {fileID: 2145042990}
+  Pop_MiniGameUI: {fileID: 0}
   Icon_Images: []
+  Pop_GameOverUI: {fileID: 0}
 --- !u!4 &2118546997
 Transform:
   m_ObjectHideFlags: 0
