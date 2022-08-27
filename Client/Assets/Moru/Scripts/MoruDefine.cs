@@ -19,7 +19,7 @@ namespace Moru
         /// 캐릭터들의 인덱스입니다.
         /// </summary>
         public enum Character { POPO, PONYEON, PEACH, POONG, MAX }
-
+        
         #endregion
 
         #region PATH&DIC_KEY
@@ -55,6 +55,24 @@ namespace Moru
         /// </summary>
         public static Delegate_Alarm delegate_Alarm;
 
+        #endregion
+
+        #region Field
+        private List<Sprite> item_Icon = new List<Sprite>((int)Product.MAX);
+        public List<Sprite> Item_Icon
+        {
+            get
+            {
+                if(item_Icon[0] == null)
+                {
+                    for(int i = 0; i < item_Icon.Count; i++)
+                    {
+                        item_Icon[i] = Resources.Load<Sprite>($"Icons/Product/{i}");
+                    }
+                }
+                return item_Icon;
+            }
+        }
         #endregion
 
         #region STRUCT

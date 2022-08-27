@@ -86,7 +86,7 @@ namespace Moru
         {
             //일단 테스트용입니다.
             //플레이어가 아이템 들고 있는지 판별
-            if(TestToggle)
+            if(pl)
             {
                 //플레이어가 아이템을 들고 있다면 어떤 아이템을 들고 있는지 판별
                 TrySaveItem();
