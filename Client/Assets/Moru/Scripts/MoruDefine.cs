@@ -147,7 +147,7 @@ namespace Moru
             /// <returns>시도결과 반환</returns>
             public bool TryProductPull(out int result,int howMany = 1)
             {
-                if (CurSavedCount >= howMany)
+                if (CurSavedCount != 0)
                 {
                     CurSavedCount -= howMany;
                     result = howMany;

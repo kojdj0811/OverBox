@@ -924,6 +924,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1378223620}
     m_Modifications:
+    - target: {fileID: 3112382941791429863, guid: a71e600d08b3e4c40a4a38512c4af946, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3723897290525959775, guid: a71e600d08b3e4c40a4a38512c4af946, type: 3}
       propertyPath: m_Name
       value: Desktop
@@ -970,6 +974,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4100000208780704997, guid: a71e600d08b3e4c40a4a38512c4af946, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5347394095379532970, guid: a71e600d08b3e4c40a4a38512c4af946, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

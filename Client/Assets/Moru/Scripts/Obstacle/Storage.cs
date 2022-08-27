@@ -13,32 +13,38 @@ namespace Moru
         [LabelText("타겟 보관함")]
         public Moru.MoruDefine.Product TargetProduct;
         private MoruDefine.StorageBox storageBox;
-        public MoruDefine.StorageBox StorageBox 
-        { 
-            get 
-            { 
+        public MoruDefine.StorageBox StorageBox
+        {
+            get
+            {
                 if (storageBox == null) storageBox = GameManager.Instance.storageBox[TargetProduct];
                 return storageBox;
-            } 
+            }
         }
 
 
         /// <summary>
         /// 아이템을 하나 꺼냅니다.
         /// </summary>
-        private void PullItem()
+        private bool PullItem()
         {
             //플레이어가 아이템을 아무것도 들고 있지 않다면
             //스토리지에서 검사 한번 하니까  우선 그냥 넘어가기
-            if(true)
+            if (true)
             {
                 //상품이 충분하다면
-                if(StorageBox.TryProductPull(out int result))
+                if (StorageBox.TryProductPull(out int result))
                 {
                     //플레이어가 해당물건을 들고 있는 상태로 만듭니다.
                     Debug.Log($"플레이어가 {TargetProduct}를 {result}만큼 꺼냈습니다.");
                     //보관함의 잔량이 업데이트됩니다.
                     MoruDefine.delegate_UpdateStorage?.Invoke();
+                    return true;
+                }
+                else
+                {
+                    Debug.Log($"물건 잔량이 부족합니다.");
+                    return false;
                 }
             }
 
@@ -66,7 +72,7 @@ namespace Moru
 
         private void OnCollisionStay(Collision collision)
         {
-            
+
         }
 
 
@@ -82,10 +88,10 @@ namespace Moru
         {
             //일단 테스트용입니다.
             //플레이어가 아이템 들고 있는지 판별
-            if(pl.carryingObject != null)
+            if (pl.carryingObject != null)
             {
                 //플레이어가 아이템을 들고 있다면 어떤 아이템을 들고 있는지 판별
-                if(pl.carryingIndex == (int)TargetProduct)
+                if (pl.carryingIndex == (int)TargetProduct)
                 {
                     TrySaveItem();
                     pl.Lay();
@@ -96,10 +102,12 @@ namespace Moru
                 }
             }
             //플레이어가 아이템을 들고 있지 않다면
-            else if(pl.carryingObject == null)
+            else if (pl.carryingObject == null)
             {
-                PullItem();
-                pl.Carry((int)TargetProduct);
+                if (PullItem())
+                {
+                    pl.Carry((int)TargetProduct);
+                }
             }
 
         }
