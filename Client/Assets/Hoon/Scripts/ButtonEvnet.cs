@@ -8,6 +8,6 @@ public class ButtonEvnet : MonoBehaviour
     // Start is called before the first frame update
     public void chooseLight(GameObject button)
     {
-        if(button.GetComponent<Button>())
+       // if(button.GetComponent<Button>())
     }
 }

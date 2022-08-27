@@ -6,71 +6,80 @@ namespace Hyerin
 {
     public class MiniGame : MonoBehaviour
     {
+        public PackingUI packingUI;
+
+        private bool isPlay;
         private int index;
         private int score;
+        List<KeyCode> keys = new List<KeyCode>();
         List<KeyCode> pattern = new List<KeyCode>();
 
         private void Start()
         {
+            isPlay = true;
             index = 0;
             score = 100;
-            pattern.Add(KeyCode.Q);
-            pattern.Add(KeyCode.W);
-            pattern.Add(KeyCode.E);
-            pattern.Add(KeyCode.A);
-            pattern.Add(KeyCode.S);
-            pattern.Add(KeyCode.D);
-            Shuffle();
+            keys.Add(KeyCode.Q);
+            keys.Add(KeyCode.W);
+            keys.Add(KeyCode.E);
+            keys.Add(KeyCode.A);
+            keys.Add(KeyCode.S);
+            keys.Add(KeyCode.D);
+            MakePattern();
+            packingUI.gameObject.SetActive(true);
+            packingUI.setKeyCodeList(pattern);
+            packingUI.showKeyCode();
         }
 
-        public delegate void Check(KeyCode key);
-
-        public void GetKey(KeyCode key, Check test)
+        private void Update()
         {
-            // 틀리면 처음부터 재도전
-            if (!IsRight(key))
+            // 오답 키를 눌렀다면 재시작합니다.
+            if (isPlay)
             {
-                score -= 10;
-
+                if (Input.anyKeyDown)
+                {
+                    bool is_correct = Input.GetKeyDown(pattern[index++]);
+                    packingUI.updateSuccess(is_correct, index);
+                    if (!is_correct)
+                    {
+                        score -= 100;
+                        StartCoroutine(Restart());
+                    }
+                }
+                if (index == 7)
+                {
+                    isPlay = false;
+                    StartCoroutine(End());
+                }
             }
         }
 
-        private bool IsRight(KeyCode key)
+        // 7개의 키를 랜덤으로 생성합니다. (중복 허용)
+        private void MakePattern()
         {
-            bool res = (pattern[index++] == key);
-            if (index == pattern.Count) End();
-            return res;
-        }
-
-        // 눌러야 할 키 순서를 섞습니다.
-        private void Shuffle()
-        {
-            int rand1, rand2;
-            KeyCode tmp;
-            
-            for(int i=0; i<pattern.Count; i++)
+            for(int i=0; i<7; i++)
             {
-                rand1 = Random.Range(0,pattern.Count);
-                rand2 = Random.Range(0, pattern.Count);
-
-                tmp = pattern[rand1];
-                pattern[rand1] = pattern[rand2];
-                pattern[rand2] = tmp;
+                int rand = Random.Range(0, keys.Count);
+                pattern.Add(keys[rand]);
             }
         }
 
-        // 게임을 재시작합니다.(인덱스만 리셋)
-        private void Restart()
+        // 잠시 멈췄다가 인덱스를 초기화하여 게임을 재시작합니다.
+        IEnumerator Restart()
         {
-            // UI 갱신
-            //...
+            yield return new WaitForSeconds(0.5f);
             index = 0;
+            //packingUI.Restart();
+            yield return null;
         }
 
-        // 게임을 종료합니다.
-        private void End()
+        // 잠시 멈췄다가 게임을 종료합니다.
+        IEnumerator End()
         {
+            yield return new WaitForSeconds(0.5f);
+            packingUI.gameObject.SetActive(false);
             Player.Instance.carryingObject.GetComponent<Moru.Box>().CompletePacking(score);
+            yield return null;
         }
     }
 
