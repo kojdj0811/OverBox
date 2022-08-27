@@ -5,6 +5,7 @@ using UnityEngine;
 public class Animation : MonoBehaviour
 {
     private float idleOffset = 0.00001f;
+    private string animState;
     private Vector3 prevPos;
     private Animator anim;
 
@@ -17,24 +18,35 @@ public class Animation : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // 이전 프레임과 현재 프레임의 플레이어 위치 변화에 따라 Idle/Walk 상태를 결정합니다.
-        float offsetX = Mathf.Abs(transform.parent.localPosition.x - prevPos.x);
-        float offsetZ = Mathf.Abs(transform.parent.localPosition.z - prevPos.z);
+        if(prevPos == transform.parent.localPosition)
+        {
+            anim.SetFloat("X", 0);
+            anim.SetFloat("Z", 0);
+        }
         prevPos = transform.parent.localPosition;
-        anim.SetBool("is_walking", offsetX > idleOffset || offsetZ > idleOffset);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            anim.SetBool("is_walking", true);
-            transform.localScale = new Vector3(transform.localScale.x * -1,transform.localScale.y,transform.localScale.z);
+            anim.SetFloat("X", -1);
+            anim.SetFloat("Z", 0);
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            anim.SetBool("is_walking", true);
-            transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+            anim.SetFloat("X", 1);
+            anim.SetFloat("Z", 0);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            anim.SetFloat("X", 0);
+            anim.SetFloat("Z", 1);
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            anim.SetFloat("X", 0);
+            anim.SetFloat("Z", -1);
         }
     }
 }

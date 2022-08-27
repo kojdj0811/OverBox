@@ -267,5 +267,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59f9ce5b04e56c48a017820a5e9a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Looker: {fileID: 8248794794171344500}
   Icon: {fileID: 1404347360850759224}
   Offset: {x: 0, y: 0, z: 0}
