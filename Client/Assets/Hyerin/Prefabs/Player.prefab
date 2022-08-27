@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7322777610838806115}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,8 +148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 10
-  boxCastMaxDistance: 1
   keyPressCooldownMax: 0.1
+  boxCastSize: 2
   carryingIndex: 0
   state: 0
-  carryingObj: {fileID: 0}
+  carryingBox: {fileID: 0}

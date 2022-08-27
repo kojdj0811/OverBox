@@ -11,6 +11,7 @@ namespace Hyerin
         public const string Computer = "Computer";
         public const string ConveyorBelt = "ConveyorBelt";
         public const string Ground = "Ground";
+        public const string Tag_Player = "Player";
         public const string Storage = "Storage";
         #endregion
 
@@ -21,10 +22,10 @@ namespace Hyerin
 
         [Range(0f, 10f)]
         public float power = 10f;
-        [Range(0f, 10f)]
-        public float boxCastMaxDistance = 1f;
         [Range(0f, 1f)]
         public float keyPressCooldownMax = 0.1f;
+        [Range(1f, 5f)]
+        public float boxSize = 1.5f;
 
         public int carryingIndex; // 0~6:물건, 7:박스, 8:없음
         public State state;
@@ -45,25 +46,10 @@ namespace Hyerin
             anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody>();
         }
-
         void OnDrawGizmos()
         {
-            int layerMask = (1 << LayerMask.GetMask(Ground));
-            RaycastHit hit;
-            bool isHit = Physics.BoxCast(transform.position, transform.lossyScale / 2, transform.forward, out hit, transform.rotation, boxCastMaxDistance, layerMask);
-
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position, transform.forward * hit.distance);
-            if (isHit)
-            {
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireCube(transform.position + transform.forward * hit.distance, transform.lossyScale);
-            }
-            else
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireCube(transform.position + transform.forward * boxCastMaxDistance, transform.lossyScale);
-            }
+            Gizmos.DrawWireCube(transform.position, new Vector3(boxSize, boxSize, boxSize));
         }
 
         /// <summary>
@@ -91,10 +77,10 @@ namespace Hyerin
         {
             isSpacebarPressed = false;
 
-            int layerMask = (1 << LayerMask.GetMask(Ground));
+            int layerMask = (1 << (LayerMask.GetMask(Ground)) | (1 << (LayerMask.GetMask(Tag_Player))));
             RaycastHit hit;
-            // 플레이어 주변에 상호작용 가능한 오브젝트가 있는지 확인합니다.(레이저를 발사할 위치, 사각형의 각 좌표의 절판 크기, 발사 방향, 충돌 결과, 회전 각도, 최대 거리)
-            bool isHit = Physics.BoxCast(transform.position, transform.lossyScale / 2, transform.forward, out hit, transform.rotation, boxCastMaxDistance);
+            // 플레이어 주변에 상호작용 가능한 오브젝트가 있는지 확인합니다.
+            Collider[] hitColliders = Physics.OverlapBox(transform.position, new Vector3(boxSize, boxSize, boxSize), Quaternion.identity, layerMask);
 
             if (Input.GetKeyUp(KeyCode.Space)) isSpacebarPressed = false;
 
@@ -102,25 +88,24 @@ namespace Hyerin
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 // 일정 거리 내에 있을 때
-                if(isHit && state == State.Movable)
+                if(hitColliders.Length>0 && state == State.Movable)
                 {
                     // 박스캐스트에 닿은 오브젝트의 상호작용 메서드를 호출합니다.
-                    hit.collider.GetComponent<Obstacle>().OnInteractive(this);
+                    hitColliders[0].GetComponent<Obstacle>().OnInteractive(this);
 
                     // 플레이어의 상태를 변경합니다.
-                    string hitColName = hit.collider.name;
-                    if (hit.collider.CompareTag(Box) || hit.collider.CompareTag(Storage))
+                    if (hitColliders[0].CompareTag(Box) || hitColliders[0].CompareTag(Storage))
                     {
-                        Carry(hit.collider.gameObject);
+                        Carry(hitColliders[0].gameObject);
                         isSpacebarPressed = true;
                     }
-                    if (hit.collider.CompareTag(Computer))
+                    if (hitColliders[0].CompareTag(Computer))
                     {
                         Debug.Log("컴퓨터 사용");
                         state = State.Computer;
                         isSpacebarPressed = true;
                     }
-                    if (hit.collider.CompareTag(ConveyorBelt))
+                    if (hitColliders[0].CompareTag(ConveyorBelt))
                     {
                         state = State.Audition;
                     }
