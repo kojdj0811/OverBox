@@ -3,66 +3,44 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Hyerin;
 
 public class PackingUI : MonoBehaviour
 {
-    public List<KeyCode> keyCodeList;
-    public Transform settingPos;
-    private int maxCode = 7;
-    private Image[] checkSuccessColor;
+    [SerializeField] private Image[] ColorShower;
+    [SerializeField] private TextMeshProUGUI[] target_Keycode;
+    [SerializeField] private Color Normal_Cor;
+    [SerializeField] private Color Correct_Cor;
+    [SerializeField] private Color Wrong_Cor;
 
-    private void OnEnable()
-    {
-    }
 
-    private void Awake()
+    /// <summary>
+    /// 키들의 텍스트와 컬러를 게임 시작상태로 초기화합니다.
+    /// </summary>
+    /// <param name="keys"></param>
+    public void Initialized(MiniGame.KEY[] keys)
     {
-        settingPos = transform.Find("AuditionPanel");
-        checkSuccessColor = new Image[maxCode];
-        for (int i=0;i<maxCode;i++)
+        for(int i = 0; i < keys.Length; i++)
         {
-            checkSuccessColor[i] = settingPos.GetChild(i).GetChild(1).GetComponent<Image>();
-            checkSuccessColor[i].color = new Color32(0, 0, 0, 0);
+            ColorShower[i].color = Normal_Cor;
+            target_Keycode[i].text = keys[i].ToString();
         }
     }
 
-
-    public void setKeyCodeList(List<KeyCode> list)
-    {
-        keyCodeList.Clear();
-        foreach (var code in list)
-            keyCodeList.Add(code);
-    }
-
-    public void showKeyCode()
-    {
-        for(int i=0;i<maxCode;i++)
-        {
-            settingPos.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = keyCodeList[i].ToString();
-        }
-    }
-
-    public void updateSuccess(bool isCorrect,int idx)
+    /// <summary>
+    /// 몇번째의 것을 잘했는지 못했는지 판단후 UI Showing을 업데이트합니다.
+    /// </summary>
+    /// <param name="isCorrect"></param>
+    /// <param name="idx"></param>
+    public void UpdateSuccess(bool isCorrect,int idx)
     {
         if(isCorrect)
         {
-            settingPos.GetChild(idx).GetChild(1).GetComponent<Image>().color = new Color32(0, 255, 0, 100);
+            ColorShower[idx].color = Correct_Cor;
         }
         else
         {
-            settingPos.GetChild(idx).GetChild(1).GetComponent<Image>().color = new Color32(255, 0, 0, 100);
-            StartCoroutine(stayAWhile());
+            ColorShower[idx].color = Wrong_Cor;
         }
-    }
-
-    IEnumerator stayAWhile()
-    {
-        yield return new WaitForSeconds(1.0f);
-        for(int i=0;i<maxCode;i++)
-        {
-            checkSuccessColor[i].color= new Color32(0, 0, 0, 0);
-        }
-        
-
     }
 }
