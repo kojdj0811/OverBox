@@ -13,6 +13,8 @@ namespace Moru
         private Transform box_Spot_transform;
         public Box box;
 
+        public GameObject Success_Prefap;
+
 
         /// <summary>
         /// 박스위치 재조정용 메서드
@@ -75,6 +77,11 @@ namespace Moru
                     //스코어 올리기
                     SetBoxInit(box);
                     GameManager.Instance.GetScore(prd_Arry, box.DiscorrectCount);
+
+                    var obj = GameObject.Find("WorldCanvas");
+                    
+                    var succussObj = Instantiate(Success_Prefap, transform.position, Quaternion.identity);
+                    succussObj.transform.SetParent(obj.transform);
                 }
                 else
                 {

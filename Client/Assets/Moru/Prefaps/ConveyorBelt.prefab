@@ -219,6 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   box_Spot_transform: {fileID: 2744157737626972041}
   box: {fileID: 0}
+  Success_Prefap: {fileID: 5445445976337255867, guid: 7d6986953463e414b953d1a26573bb1d, type: 3}
 --- !u!65 &2926352111745747991
 BoxCollider:
   m_ObjectHideFlags: 0

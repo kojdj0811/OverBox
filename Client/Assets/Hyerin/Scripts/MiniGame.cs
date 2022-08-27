@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Hyerin
 {
@@ -12,10 +13,11 @@ namespace Hyerin
         private int index;
         private int score;
         private int wrongCnt;
-        private float time;
+        [SerializeField] private float time;
+        [SerializeField] private float Maxtime;
         List<KeyCode> keys = new List<KeyCode>();
         List<KeyCode> pattern = new List<KeyCode>();
-
+        public Image slider;
         public Moru.Box pl_box;
 
 
@@ -48,7 +50,7 @@ namespace Hyerin
 
         private void Update()
         {
-
+            slider.fillAmount = time / Maxtime;
             // 오답 키를 눌렀다면 재시작합니다.
             if (isPlay)
             {
@@ -57,7 +59,7 @@ namespace Hyerin
                 if (time <= 0)
                 {
                     isPlay = false;
-                    time = 3f;
+                    time = Maxtime;
                     Debug.Log("시간초과");
                     score -= 100;
                     wrongCnt++;
@@ -111,7 +113,7 @@ namespace Hyerin
         {
             yield return new WaitForSeconds(0.5f);
             packingUI.gameObject.SetActive(false);
-            pl_box.CompletePacking(score);
+            pl_box.CompletePacking(wrongCnt);
             pl_box = null;
             yield return null;
         }

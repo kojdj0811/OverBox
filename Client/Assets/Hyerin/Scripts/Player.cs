@@ -23,8 +23,14 @@ namespace Hyerin
 
         [Range(0f, 10f)]
         public float power = 10f;
-        [Range(0f, 1f)]
-        public float keyPressCooldownMax = 0.1f;
+        [Range(1f, 10f)]
+        public float boast = 1.5f;
+        private bool isBoastMode = false;
+        public float BoastTime = 1f;
+
+        private float keyPressCooldownMax = 0f;
+        [Range(0f, 15f)]
+        public float MaxBoastCooltime = 5;
         [Range(0.1f, 2f)]
         public float boxSize = 1.5f;
 
@@ -76,10 +82,10 @@ namespace Hyerin
             if (GameManager.Instance.isGameOver) return;
             if (state == State.Movable)
             {
-                if (Input.GetKey(KeyCode.UpArrow)) { rb.AddForce(transform.forward * power); }
-                if (Input.GetKey(KeyCode.DownArrow)) { rb.AddForce(-transform.forward * power); }
-                if (Input.GetKey(KeyCode.LeftArrow)) { rb.AddForce(-transform.right * power); }
-                if (Input.GetKey(KeyCode.RightArrow)) { rb.AddForce(transform.right * power); }
+                if (Input.GetKey(KeyCode.UpArrow)) { rb.AddForce(transform.forward * power * Boast()); }
+                if (Input.GetKey(KeyCode.DownArrow)) { rb.AddForce(-transform.forward * power * Boast()); }
+                if (Input.GetKey(KeyCode.LeftArrow)) { rb.AddForce(-transform.right * power * Boast()); }
+                if (Input.GetKey(KeyCode.RightArrow)) { rb.AddForce(transform.right * power * Boast()); }
                 if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                 {
 
@@ -95,11 +101,15 @@ namespace Hyerin
             if (GameManager.Instance.isGameOver) return;
             isSpacebarPressed = false;
 
+            keyPressCooldownMax += Time.deltaTime;
+
+
+
             int layerMask = (1 << (LayerMask.GetMask(Ground)) | (1 << (LayerMask.GetMask(Tag_Player))));
             RaycastHit hit;
             // 플레이어 주변에 상호작용 가능한 오브젝트가 있는지 확인합니다.
             //Collider[] hitColliders = Physics.OverlapBox(transform.position, new Vector3(boxSize, boxSize, boxSize), Quaternion.identity, layerMask);
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, boxSize,  layerMask, QueryTriggerInteraction.Ignore);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, boxSize, layerMask, QueryTriggerInteraction.Ignore);
 
             if (Input.GetKeyUp(KeyCode.Space)) isSpacebarPressed = false;
 
@@ -110,7 +120,7 @@ namespace Hyerin
                 if (hitColliders.Length > 0 && state == State.Movable)
                 {
                     Obstacle obj = null;
-                        for (int i = 0; i < hitColliders.Length; i++)
+                    for (int i = 0; i < hitColliders.Length; i++)
                     {
                         // 박스캐스트에 닿은 오브젝트의 상호작용 메서드를 호출합니다.
                         if (hitColliders[i].TryGetComponent<Obstacle>(out obj))
@@ -152,6 +162,15 @@ namespace Hyerin
                 //if (IsCarrying() && !isSpacebarPressed) Lay();
             }
 
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                if (keyPressCooldownMax >= MaxBoastCooltime)
+                {
+                    isBoastMode = true;
+                    keyPressCooldownMax = 0;
+                }
+            }
             #region QWEASD 처리 (주석처리)
             //if ( Input.GetKeyDown(KeyCode.Q))
             //{
@@ -326,6 +345,24 @@ namespace Hyerin
             myBox = null;
             carryingIndex = 8;
 
+        }
+
+        private float Boast()
+        {
+            if (isBoastMode)
+            {
+                Invoke("InvokingMethod", BoastTime);
+                return boast * 10;
+            }
+            else
+            {
+                return 1f;
+            }
+
+        }
+        void InvokingMethod()
+        {
+            isBoastMode = false;
         }
     }
 }
