@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class RecipeController : MonoBehaviour
 {
+    public TextMeshProUGUI nameZone;
 
-    public void showProducts(int[] requestList)
+    public void showProducts(int[] requestList, string name = "")
     {
         int recipeCnt = 0;
         for(int i=0;i<6;i++)
@@ -18,9 +20,8 @@ public class RecipeController : MonoBehaviour
                 obj.GetComponent<Image>().sprite = Moru.MoruDefine.Item_Icon[i];
                 obj.gameObject.SetActive(true);
                 recipeCnt++;
-
             }
-            
         }
+        nameZone.text = name;
     }
 }

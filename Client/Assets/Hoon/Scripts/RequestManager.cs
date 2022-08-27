@@ -29,17 +29,21 @@ public class RequestManager : MonoBehaviour
         generateRequest();
         generateRequest();
         generateRequest();
-        completeRequest(2);
     }
 
     public void generateRequest()
     {
-       
+        if (Moru.GameManager.Instance.least_Costomer < 0)
+        {
+            return;
+        }
+        var orderName = Moru.GameManager.Instance.orderistNames[Random.Range(0, Moru.GameManager.Instance.orderistNames.Count)];
+        Moru.GameManager.Instance.orderistNames.Remove(orderName);
         Moru.MoruDefine.OrderRequest newRequest = requestSet[Random.Range(0, requestSet.Length)];
 
         GameObject obj = Instantiate(requestPrefab, generatePos);
 
-        obj.transform.Find("Recipe").GetComponent<RecipeController>().showProducts(newRequest.requestList);
+        obj.transform.Find("Recipe").GetComponent<RecipeController>().showProducts(newRequest.requestList, orderName);
         orderList.Add(newRequest);
 
 
@@ -49,6 +53,7 @@ public class RequestManager : MonoBehaviour
     {
         Destroy(gameObject.transform.GetChild(idx).gameObject);
         orderList.RemoveAt(idx);
+        Moru.GameManager.Instance.least_Costomer--;
         generateRequest();
     }
 
@@ -56,6 +61,7 @@ public class RequestManager : MonoBehaviour
     {
         Destroy(gameObject.transform.GetChild(orderList.IndexOf(completeRequest)).gameObject);
         orderList.Remove(completeRequest);
+        Moru.GameManager.Instance.least_Costomer--;
         generateRequest();
     }
 

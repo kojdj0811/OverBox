@@ -73,6 +73,7 @@ namespace Hyerin
         /// </summary>
         private void FixedUpdate()
         {
+            if (GameManager.Instance.isGameOver) return;
             if (state == State.Movable)
             {
                 if (Input.GetKey(KeyCode.UpArrow)) { rb.AddForce(transform.forward * power); }
@@ -91,6 +92,7 @@ namespace Hyerin
         /// </summary>
         void Update()
         {
+            if (GameManager.Instance.isGameOver) return;
             isSpacebarPressed = false;
 
             int layerMask = (1 << (LayerMask.GetMask(Ground)) | (1 << (LayerMask.GetMask(Tag_Player))));
