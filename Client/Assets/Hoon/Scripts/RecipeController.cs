@@ -15,7 +15,8 @@ public class RecipeController : MonoBehaviour
             {
                 //Debug.Log()
                 var obj = transform.GetChild(recipeCnt);
-                //obj.GetComponent<Image>().sprite = Moru.MoruDefine.Item_Icon[i];
+                Debug.Log(obj);
+                obj.GetComponent<Image>().sprite = Moru.MoruDefine.Item_Icon[i];
                 obj.gameObject.SetActive(true);
                 recipeCnt++;
 
