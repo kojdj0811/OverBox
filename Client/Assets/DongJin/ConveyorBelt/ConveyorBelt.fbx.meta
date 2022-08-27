@@ -3,7 +3,17 @@ guid: 16663ded034b9b446841984b52d38961
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Guide
+    second: {fileID: 2100000, guid: b571a2a040ff77841bccd97b0a70b875, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: blet
+    second: {fileID: 2100000, guid: de54b5eb1d4e53a4fb447258a21500f4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
