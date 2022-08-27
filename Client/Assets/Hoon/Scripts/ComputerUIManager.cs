@@ -36,7 +36,7 @@ public class ComputerUIManager : MonoBehaviour
     
     private void OnEnable()
     {
-        least_Coins.text = "Coins\n" + Moru.GameManager.Instance.curCoin;
+        least_Coins.text =  Moru.GameManager.Instance.curCoin.ToString();
         foreach (var comp in computing)
         {
             comp.isAlreadyBuy = false;
@@ -58,7 +58,7 @@ public class ComputerUIManager : MonoBehaviour
                     Moru.GameManager.Instance.curCoin -= computing[i].price;
                     computing[i].isAlreadyBuy = true;
                     computing[i].image.color = DisableColor;
-                    least_Coins.text = "Coins\n" + Moru.GameManager.Instance.curCoin;
+                    least_Coins.text =  Moru.GameManager.Instance.curCoin.ToString();
                 }
             }
         }
