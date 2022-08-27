@@ -104,9 +104,9 @@ namespace Moru
 
             //오더 관련 처리
             //만일 플레이어가 물건을 들고 있다면 상호작용이 불가능합니다.
-            if (pl)
+            if (pl.IsCarrying())
             {
-                //return;
+                return;
             }
             //만일 플레이어가 오더가 가능한 상태라면 
             else if (isOrderable)
@@ -117,13 +117,6 @@ namespace Moru
                 GameManager.Instance.Pop_OrderUI?.SetActive(true);
 
             }
-            else
-            {
-                //물건을 들고 있거나 주문이 불가능한 상태입니다.
-
-            }
-
-
 
         }
         #endregion
