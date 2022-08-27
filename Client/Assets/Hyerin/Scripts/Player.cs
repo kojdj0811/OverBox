@@ -140,6 +140,7 @@ namespace Hyerin
                 if (carryingObj && !isSpacebarPressed) Lay();
             }
 
+            #region QWEASD Ã³¸®
             if ( Input.GetKeyDown(KeyCode.Q))
             {
                 switch (state)
@@ -179,6 +180,46 @@ namespace Hyerin
                         break;
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                switch (state)
+                {
+                    case State.Computer:
+                        break;
+                    case State.Audition:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                switch (state)
+                {
+                    case State.Computer:
+                        break;
+                    case State.Audition:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                switch (state)
+                {
+                    case State.Computer:
+                        break;
+                    case State.Audition:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            #endregion
         }
 
         public bool IsCarrying()
