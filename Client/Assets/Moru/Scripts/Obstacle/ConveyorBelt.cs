@@ -90,7 +90,7 @@ namespace Moru
         {
             if (pl.IsCarrying())
             {
-                var box_comp = pl.carryingObj.GetComponent<Box>();
+                var box_comp = pl.carryingBox.GetComponent<Box>();
                 //끌고 있는 오브젝트가 박스일 경우
                 if (box_comp)
                 {
@@ -101,7 +101,7 @@ namespace Moru
                         //박스를 할당한다. (지금은 그냥 비어있는 오브젝트)
                         OnArrive(box_comp);
                         var obj = new GameObject();
-                        Destroy(obj,3f);
+                        Destroy(obj,1f);
                     }
                     else
                     {

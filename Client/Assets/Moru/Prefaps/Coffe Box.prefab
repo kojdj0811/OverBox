@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5094251814888848934}
   m_Layer: 0
   m_Name: Coffe Box
-  m_TagString: Untagged
+  m_TagString: Storage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

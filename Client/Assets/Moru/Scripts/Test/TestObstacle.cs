@@ -28,7 +28,7 @@ public class TestObstacle : Obstacle
 
     private void OnCollisionEnter(Collision collision)
     {
-            OnHit(collision);
+            //OnHit(collision);
         if(collision.gameObject.GetComponent<Player>())
         {
         }
