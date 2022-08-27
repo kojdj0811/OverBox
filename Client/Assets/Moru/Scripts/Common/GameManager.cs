@@ -73,10 +73,36 @@ namespace Moru
 
         #endregion
 
+
+        #region BOX
+
+        #endregion
+
+        /// <summary>
+        /// 박스 프리팹 원본입니다.
+        /// </summary>
+        /// 
+        [BoxGroup("박스 규칙"), LabelText("박스 프리팹")]
+        public GameObject Box_prefap;
+
+        /// <summary>
+        /// 박스가 최대로 존재할 수 있는 개수입니다.
+        /// </summary>
+        [BoxGroup("박스 규칙"), LabelText("박스가 최대 몇개까지 존재가능한가")]
+        public int maxCount_BoxExist;
+
+        public float spawnBox_MinimumTerm = 0.5f;
+
         #endregion
 
         #region UIReference
+
+        /// <summary>
+        /// 팝업될 발주시의 UI입니다.
+        /// </summary>
+        [BoxGroup("UI"), LabelText("발주용 팝업 UI")]
         public GameObject Pop_OrderUI;
+
 
         #endregion
 

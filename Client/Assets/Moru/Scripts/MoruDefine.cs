@@ -58,8 +58,11 @@ namespace Moru
         #endregion
 
         #region Field
-        private List<Sprite> item_Icon = new List<Sprite>((int)Product.MAX);
-        public List<Sprite> Item_Icon
+        private static List<Sprite> item_Icon = new List<Sprite>((int)Product.MAX);
+        /// <summary>
+        /// 상품들의 아이콘들입니다.
+        /// </summary>
+        public static List<Sprite> Item_Icon
         {
             get
             {

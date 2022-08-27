@@ -30,7 +30,7 @@ namespace Moru
         /// 박스위치 재조정용 메서드
         /// </summary>
         /// <param name="box"></param>
-        private void SetBoxInit(Box box)
+        public void SetBoxInit(Box box)
         {
             box.gameObject.transform.localPosition = Box_PivotPos;
             box.transform.SetParent(this.transform);
