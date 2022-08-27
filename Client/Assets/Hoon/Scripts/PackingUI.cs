@@ -9,21 +9,20 @@ public class PackingUI : MonoBehaviour
     public List<KeyCode> keyCodeList;
     public Transform settingPos;
     private int maxCode = 7;
-    
+    private Image[] checkSuccessColor;
 
     private void Awake()
     {
         settingPos = transform.Find("AuditionPanel");
+        checkSuccessColor = new Image[maxCode];
+        for (int i=0;i<maxCode;i++)
+        {
+            checkSuccessColor[i] = settingPos.GetChild(i).GetChild(0).GetComponent<Image>();
+            checkSuccessColor[i].color = new Color32(0, 0, 0, 0);
+        }
     }
-    // Start is called before the first frame update
-    private void Start()
-    {
 
-    }
-    private void Update()
-    {
-        
-    }
+
 
     public void setKeyCodeList(List<KeyCode> list)
     {
@@ -55,6 +54,11 @@ public class PackingUI : MonoBehaviour
     IEnumerator stayAWhile()
     {
         yield return new WaitForSeconds(1.0f);
+        for(int i=0;i<maxCode;i++)
+        {
+            checkSuccessColor[i].color= new Color32(0, 0, 0, 0);
+        }
+        
 
     }
 }
