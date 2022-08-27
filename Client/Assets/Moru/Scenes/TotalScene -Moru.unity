@@ -1827,10 +1827,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1503464308}
-    - target: {fileID: 7322777610838806115, guid: dfa894736f518474ca5c0849e8271635, type: 3}
-      propertyPath: boxSize
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7322777610838806116, guid: dfa894736f518474ca5c0849e8271635, type: 3}
       propertyPath: m_Name
       value: Player
@@ -4027,7 +4023,7 @@ GameObject:
   - component: {fileID: 1923281072}
   - component: {fileID: 1923281071}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: SoundManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4758,30 +4754,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1095685371}
     m_Modifications:
-    - target: {fileID: 7929108693311054604, guid: 230ba378adbdb844893fa4c6a4b0c9e6, type: 3}
-      propertyPath: m_MaxValue
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7929108693311054604, guid: 230ba378adbdb844893fa4c6a4b0c9e6, type: 3}
-      propertyPath: m_MinValue
-      value: -80
-      objectReference: {fileID: 0}
-    - target: {fileID: 7929108693311054604, guid: 230ba378adbdb844893fa4c6a4b0c9e6, type: 3}
-      propertyPath: m_WholeNumbers
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7929108693487267180, guid: 230ba378adbdb844893fa4c6a4b0c9e6, type: 3}
-      propertyPath: m_MaxValue
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7929108693487267180, guid: 230ba378adbdb844893fa4c6a4b0c9e6, type: 3}
-      propertyPath: m_MinValue
-      value: -80
-      objectReference: {fileID: 0}
-    - target: {fileID: 7929108693487267180, guid: 230ba378adbdb844893fa4c6a4b0c9e6, type: 3}
-      propertyPath: m_WholeNumbers
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7929108693848564680, guid: 230ba378adbdb844893fa4c6a4b0c9e6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4869,18 +4841,6 @@ PrefabInstance:
     - target: {fileID: 7929108693848564683, guid: 230ba378adbdb844893fa4c6a4b0c9e6, type: 3}
       propertyPath: m_Name
       value: OptionMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 7929108694427841338, guid: 230ba378adbdb844893fa4c6a4b0c9e6, type: 3}
-      propertyPath: m_MaxValue
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7929108694427841338, guid: 230ba378adbdb844893fa4c6a4b0c9e6, type: 3}
-      propertyPath: m_MinValue
-      value: -80
-      objectReference: {fileID: 0}
-    - target: {fileID: 7929108694427841338, guid: 230ba378adbdb844893fa4c6a4b0c9e6, type: 3}
-      propertyPath: m_WholeNumbers
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 230ba378adbdb844893fa4c6a4b0c9e6, type: 3}

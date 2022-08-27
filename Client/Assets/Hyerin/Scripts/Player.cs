@@ -25,7 +25,7 @@ namespace Hyerin
         public float power = 10f;
         [Range(0f, 1f)]
         public float keyPressCooldownMax = 0.1f;
-        [Range(1f, 5f)]
+        [Range(0.1f, 2f)]
         public float boxSize = 1.5f;
 
         public int carryingIndex; // 0~6:물건, 7:박스, 8:없음
@@ -98,7 +98,8 @@ namespace Hyerin
             int layerMask = (1 << (LayerMask.GetMask(Ground)) | (1 << (LayerMask.GetMask(Tag_Player))));
             RaycastHit hit;
             // 플레이어 주변에 상호작용 가능한 오브젝트가 있는지 확인합니다.
-            Collider[] hitColliders = Physics.OverlapBox(transform.position, new Vector3(boxSize, boxSize, boxSize), Quaternion.identity, layerMask);
+            //Collider[] hitColliders = Physics.OverlapBox(transform.position, new Vector3(boxSize, boxSize, boxSize), Quaternion.identity, layerMask);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, boxSize,  layerMask, QueryTriggerInteraction.Ignore);
 
             if (Input.GetKeyUp(KeyCode.Space)) isSpacebarPressed = false;
 
