@@ -221,7 +221,7 @@ namespace Moru
             {
                 for (int i = 0; i < (int)MoruDefine.Product.MAX; i++)
                 {
-                    storageBox.Add((MoruDefine.Product)i, new MoruDefine.StorageBox(99, 5));
+                    storageBox.Add((MoruDefine.Product)i, new MoruDefine.StorageBox(99, 3));
                 }
             }
             Icon_Images = new List<Sprite>();
