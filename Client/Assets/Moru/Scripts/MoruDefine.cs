@@ -58,24 +58,11 @@ namespace Moru
         #endregion
 
         #region Field
-        private static List<Sprite> item_Icon = new List<Sprite>((int)Product.MAX);
+        private static List<Sprite> item_Icon;
         /// <summary>
         /// 상품들의 아이콘들입니다.
         /// </summary>
-        public static List<Sprite> Item_Icon
-        {
-            get
-            {
-                if(item_Icon[0] == null)
-                {
-                    for(int i = 0; i < item_Icon.Count; i++)
-                    {
-                        item_Icon[i] = Resources.Load<Sprite>($"Icons/Product/{i}");
-                    }
-                }
-                return item_Icon;
-            }
-        }
+        public static List<Sprite> Item_Icon;
         #endregion
 
         #region STRUCT
