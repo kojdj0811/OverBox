@@ -19,7 +19,7 @@ namespace Moru
         /// 캐릭터들의 인덱스입니다.
         /// </summary>
         public enum Character { POPO, PONYEON, PEACH, POONG, MAX }
-
+        
         #endregion
 
         #region PATH&DIC_KEY
