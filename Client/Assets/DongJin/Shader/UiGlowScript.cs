@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(RawImage)), ExecuteAlways]
+//[RequireComponent(typeof(RawImage)), ExecuteAlways]
 public class UiGlowScript : MonoBehaviour
 {
     public bool glowEnable;
@@ -16,13 +16,13 @@ public class UiGlowScript : MonoBehaviour
 
     public Color glowColor;
 
-    private Material mat;
+    public Material mat;
 
 
     private void OnEnable() {
         if(mat == null) {
             mat = new Material(Shader.Find("Hidden/UiGlowShader"));
-            GetComponent<RawImage>().material = mat;
+            //GetComponent<RawImage>().material = mat;
         }
     }
 

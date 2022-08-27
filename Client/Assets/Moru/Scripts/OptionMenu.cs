@@ -31,6 +31,17 @@ public class OptionMenu : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    public void OnFullScreen()
+    {
+        Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+    }
+
+    public void OnWindowScreen()
+    {
+        Screen.fullScreenMode = FullScreenMode.Windowed;
+    }
+
+
     public void Update()
     {
         if(Time.timeScale != 0)
