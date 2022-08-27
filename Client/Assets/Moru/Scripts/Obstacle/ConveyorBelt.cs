@@ -38,11 +38,13 @@ namespace Moru
             //박스의 딕셔너리형을 배열로 변환합니다.
             var boxProducts = box.cur_PuttingItem;
             int[] prd_Arry = new int[6];
+            string prd_ArrStr = "";
             for(int i = 0; i < prd_Arry.Length; i++)
             {
                 prd_Arry[i] = boxProducts[(MoruDefine.Product)i];
+                prd_ArrStr += boxProducts[(MoruDefine.Product)i].ToString();
             }
-
+            Debug.Log($"{prd_ArrStr}");
             
             var requestManager = RequestManager.instance;
             if (requestManager != null)
@@ -53,12 +55,19 @@ namespace Moru
                 for(int i = 0; i < requestManager.getOrderList().Count; i++)
                 {
                     var orderList = requestManager.getOrderList()[i];
-                    if(orderList.requestList == prd_Arry)
+                    string order_Arr = "";
+                    for(int j= 0; j < orderList.requestList.Length; j++)
+                    {
+                        order_Arr += orderList.requestList[j].ToString();
+                    }
+                    Debug.Log("배열결과 : " + order_Arr);
+                    if(prd_ArrStr == order_Arr)
                     {
                         correct_Adress = i;
                         break;
                     }
                 }
+                Debug.Log($" 같은 것을 찾았나요?{correct_Adress.HasValue}");
                 if(correct_Adress != null)
                 {
                     //리퀘스트 매니저에서 오더리스트의 correct_Adress번째 리스트를 삭제하는 함수

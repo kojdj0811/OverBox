@@ -37,13 +37,13 @@ namespace Moru
         public static int curScore = 0;
 
         [BoxGroup("점수 관련"), LabelText("유저가 획득하는 기본점수")]
-        public static int base_Score = 2000;
+        public int base_Score = 2000;
 
         [BoxGroup("점수 관련"), LabelText("유저가 물건당 추가로 획득하는 점수")]
-        public static int prd_Score = 20;
+        public int prd_Score = 20;
 
         [BoxGroup("점수 관련"), LabelText("유저가 아재기믹 틀리면 하나당 깎이는 점수")]
-        public static float discount_Score = 2000;
+        public float discount_Score = 0.5f;
 
         #endregion
 
@@ -272,11 +272,15 @@ namespace Moru
             }
             getScore += i * prd_Score;
 
-            //아재기믹 틀린 개수만큼 점수 빼기
-            getScore /= (int)(DiscorreCount * discount_Score);
+            //아재기믹 틀린 개수만큼 ^1/2
+            for(int j =0; j < DiscorreCount; j++)
+            {
+                getScore *= (int)discount_Score;
+            }
 
             //점수 업데이트
             curScore += getScore;
+            MoruDefine.delegate_UpdateScore?.Invoke();
         }
 
         /// <summary>

@@ -1,9 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class AutoFloor : MonoBehaviour
 {
+    [Title("Requirements")]
+    [Required]
+    public Material matFloor_0;
+    [Required]
+    public Material matFloor_1;
+
     /// <summary>
     /// x축 그리드값
     /// </summary>
@@ -34,6 +41,8 @@ public class AutoFloor : MonoBehaviour
                 
                 floor.transform.SetParent(floorParent.transform);
                 floor.transform.position = new Vector3(_x, 0, _z);
+
+                floor.GetComponent<Renderer>().sharedMaterial = (_z % 2 == _x % 2) ? matFloor_0 : matFloor_1;
             }
         }
     }
