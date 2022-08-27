@@ -12,13 +12,13 @@ namespace Moru
     {
         [LabelText("타겟 보관함")]
         public Moru.MoruDefine.Product TargetProduct;
-        private MoruDefine.StorageBox? storageBox;
+        private MoruDefine.StorageBox storageBox;
         public MoruDefine.StorageBox StorageBox 
         { 
             get 
             { 
                 if (storageBox == null) storageBox = GameManager.Instance.storageBox[TargetProduct];
-                return (MoruDefine.StorageBox)storageBox;
+                return storageBox;
             } 
         }
 
@@ -44,7 +44,7 @@ namespace Moru
         public void TrySaveItem()
         {
             //플레이어가 들고 있는 아이템이 보관함이 보관할 수 있는 종류와 같은 것이라면
-            if(true)
+            if (true)
             {
                 //상품을 보관함에 저장합니다.
                 StorageBox.ProductKeep();
@@ -52,9 +52,26 @@ namespace Moru
             }
         }
 
+        private void OnCollisionStay(Collision collision)
+        {
+            
+        }
+
+
+        #region ABSTRACT
+
+
         public override void OnHit(Collision collision)
         {
 
         }
+
+        public override void OnInteractive(Hyerin.Player pl)
+        {
+            //플레이어가 아이템 들고 있는지 판별
+            //플레이어가 아이템을 들고 있다면 어떤 아이템을 들고 있는지 판별
+        }
+
+        #endregion
     }
 }

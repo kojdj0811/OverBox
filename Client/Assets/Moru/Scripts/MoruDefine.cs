@@ -44,6 +44,17 @@ namespace Moru
         /// <param name="items"></param>
         public static Delegate_Delivery delegate_Delivery;
 
+
+
+        /// <summary>
+        /// 컴퓨터에서 울릴 알람입니다.
+        /// </summary>
+        public delegate void Delegate_Alarm();
+        /// <summary>
+        /// 컴퓨터에서 울릴 알람입니다.
+        /// </summary>
+        public static Delegate_Alarm delegate_Alarm;
+
         #endregion
 
         #region STRUCT
@@ -82,9 +93,17 @@ namespace Moru
         /// 상품보관함 구조체입니다.
         /// </summary>
         [System.Serializable]
-        public struct StorageBox
+        public class StorageBox
         {
+            /// <summary>
+            /// 최대로 보관할 수 있는 수입니다.
+            /// </summary>
+            [ShowInInspector, ReadOnly]
             public int MaxSavedCount { get; private set; }
+            /// <summary>
+            /// 현재 가지고 있는 수입니다.
+            /// </summary>
+            [ShowInInspector, ReadOnly]
             public int CurSavedCount { get; private set; }
 
             public StorageBox(int _MaxSavedCount, int _CurSavedCount)

@@ -42,4 +42,9 @@ public class TestObstacle : Obstacle
             collision.rigidbody.AddForce(velocity * -1* pushAmount*1000);
         }
     }
+
+    public override void OnInteractive(Hyerin.Player pl)
+    {
+        Debug.Log("응 아무일도 없어~");
+    }
 }

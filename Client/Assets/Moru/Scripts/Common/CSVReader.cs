@@ -38,7 +38,7 @@ namespace Moru.CSV
                     {
                         debug += ","+data[i][j];
                     }
-                    Debug.Log($"{ debug}");
+                    //Debug.Log($"{ debug}");
 
                 }
             }

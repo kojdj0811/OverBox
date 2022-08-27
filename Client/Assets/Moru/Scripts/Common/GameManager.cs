@@ -75,6 +75,11 @@ namespace Moru
 
         #endregion
 
+        #region UIReference
+        public GameObject Pop_OrderUI;
+
+        #endregion
+
         protected override void Awake()
         {
             base.Awake();
@@ -91,7 +96,9 @@ namespace Moru
                 }
             }
 
-
+            //딜리버리 매니저를 초기화합니다.
+            var Computers = FindObjectsOfType<Computer>(true);
+            deliveryManager.OnInitialize(Computers);
             //발주 주문 델리게이트 등록
             MoruDefine.delegate_Delivery += deliveryManager.OnOrderItem;
 
@@ -119,9 +126,15 @@ namespace Moru
             {
                 deliveryManager.Arrive();
                 cur_Delivery_Time = 0;
+                Debug.LogError("상품 도착!");
             }
         }
 
+
+        public void OnOrderItem(int[] items)
+        {
+            deliveryManager.OnOrderItem(items);
+        }
 
     }
 }
