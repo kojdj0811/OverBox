@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OptionMenu : MonoBehaviour
 {
@@ -39,6 +40,17 @@ public class OptionMenu : MonoBehaviour
     public void OnWindowScreen()
     {
         Screen.fullScreenMode = FullScreenMode.Windowed;
+    }
+
+    public void RetrunToTitle () {
+        // when this code work, character will not move 
+        // SceneManager.LoadScene("HUD");
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();        
+#endif
     }
 
 
