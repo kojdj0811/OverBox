@@ -21,7 +21,7 @@ namespace Hyerin
         /// </summary>
         public enum State { Movable, Computer, Audition }
 
-        [Range(0f, 10f)]
+        [Range(0f, 100f)]
         public float power = 10f;
         [Range(1f, 10f)]
         public float boast = 1.5f;

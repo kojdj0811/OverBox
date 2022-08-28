@@ -13,4 +13,9 @@ public class BackToMainMenu : MonoBehaviour
             transform.Find("Credit").gameObject.SetActive(false);
         }
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

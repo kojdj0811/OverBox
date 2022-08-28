@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Hoon/Scenes/HUD.unity
-    guid: 4d72d3122952d4047aba0872ec239600
+    path: Assets/CommonScene/HUD 1.unity
+    guid: dc3d208855861644690bc24828ef5ad3
   - enabled: 1
-    path: Assets/CommonScene/TotalScene.unity
-    guid: 7291e3af0396dfc46bdc33a257b3a648
+    path: Assets/CommonScene/TotalScene Real 2.unity
+    guid: 355efbc3569aff74daa45b2a49b23a09
   m_configObjects: {}

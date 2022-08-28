@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class OptionMenu : MonoBehaviour
 {
+    public GameObject ButtonList;
+
     public void OnSliderBGM(float value)
     {
         SoundManager.mixer.SetFloat("bgm_Volume", value);
@@ -29,8 +31,15 @@ public class OptionMenu : MonoBehaviour
     public void OnExit()
     {
         Time.timeScale = 1;
-        this.gameObject.SetActive(false);
+        // this.gameObject.SetActive(false);
     }
+
+    public void LoadScene(int index)
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(index);
+    }
+
+
 
     public void OnFullScreen()
     {
@@ -60,5 +69,19 @@ public class OptionMenu : MonoBehaviour
         {
             Time.timeScale = 0;
         }
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnExitAtMainMenu();
+        }
+    }
+
+    public void OnExitAtMainMenu()
+    {
+        if(ButtonList)
+        {
+            ButtonList.SetActive(true);
+        }
+        this.gameObject.SetActive(false);
+        Time.timeScale = 1;
     }
 }
