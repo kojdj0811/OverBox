@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 using Sirenix.OdinInspector;
 
@@ -45,10 +46,11 @@ public class SoundManager : SingleToneMono<SoundManager>
 
     private void Start()
     {
+        SceneManager.sceneLoaded += OnLevelWasLoaded_deprecated;
         PlayBGM(BGMclip);
     }
 
-    public void OnLevelWasLoaded(int level)
+    public void OnLevelWasLoaded_deprecated(Scene arg, LoadSceneMode mode)
     {
         var audios = FindObjectsOfType<AudioSource>();
         for (int i = 0; i < audios.Length; i++)

@@ -178,7 +178,11 @@ namespace Moru
         private GameObject Pop_OptionUI;
 
         #endregion
+
+#pragma warning disable CS0414
         private static bool isFirstOpen = true;
+#pragma warning restore CS0414
+
         protected override void Awake()
         {
             base.Awake();

@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Animation : MonoBehaviour
+public class HyerinAnimation : MonoBehaviour
 {
+#pragma warning disable CS0414
     private float idleOffset = 0.00001f;
+#pragma warning restore CS0414
+
+
     private string animState;
     private Vector3 prevPos;
     private Animator anim;
