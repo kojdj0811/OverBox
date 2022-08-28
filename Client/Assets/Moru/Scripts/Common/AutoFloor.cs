@@ -42,7 +42,7 @@ public class AutoFloor : MonoBehaviour
                 floor.transform.SetParent(floorParent.transform);
                 floor.transform.position = new Vector3(_x, 0, _z);
 
-                floor.GetComponent<Renderer>().sharedMaterial = (_z % 2 == _x % 2) ? matFloor_0 : matFloor_1;
+                floor.GetComponent<Renderer>().sharedMaterial = (Mathf.Abs(_z) % 2 == Mathf.Abs(_x) % 2) ? matFloor_0 : matFloor_1;
             }
         }
     }
