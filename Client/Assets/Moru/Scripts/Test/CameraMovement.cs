@@ -5,13 +5,14 @@ using UnityEngine.Rendering;
 
 public class CameraMovement : MonoBehaviour
 {
+    public Transform target;
     public float speed = 1;
     
     public bool isRecording;
     private void Update()
     {
         var mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        this.gameObject.transform.LookAt(mousePos);
+        this.gameObject.transform.LookAt(target);
         if(Input.GetKey(KeyCode.W))
         {
             this.transform.localPosition += Vector3.forward * speed*Time.deltaTime;

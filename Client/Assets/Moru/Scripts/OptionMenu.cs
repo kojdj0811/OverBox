@@ -31,7 +31,7 @@ public class OptionMenu : MonoBehaviour
     public void OnExit()
     {
         Time.timeScale = 1;
-        this.gameObject.SetActive(false);
+        // this.gameObject.SetActive(false);
     }
 
     public void LoadScene(int index)

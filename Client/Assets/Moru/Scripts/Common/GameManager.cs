@@ -188,6 +188,8 @@ namespace Moru
             base.Awake();
             //레시피패턴 할당
 
+            Time.timeScale = 1.0f;
+
             ProductPatten_CSV = Resources.Load<TextAsset>("recipePatten");
             productCSV_Data = CSV.CSVReader.Initialize_TextAsset(ProductPatten_CSV, MoruDefine.ProductPatten_DicKey);
             requests = new MoruDefine.OrderRequest[productCSV_Data.columnCount - 2];
@@ -277,6 +279,7 @@ namespace Moru
             //옵션키를 열고닫음
             if(Input.GetKeyDown(KeyCode.Escape))
             {
+                Time.timeScale = Pop_OptionUI.activeInHierarchy ? 1.0f : 0.0f;
                 Pop_OptionUI?.SetActive(!Pop_OptionUI.activeInHierarchy);
             }
         }
