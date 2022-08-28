@@ -47,7 +47,10 @@ namespace Hyerin
         /// </summary>
         public Box myBox;
 
+#pragma warning disable CS0414
         private bool isSpacebarPressed;
+#pragma warning restore CS0414
+
         // 발주 상품 목록
         private int[] items;
         private Animator anim;
@@ -106,7 +109,7 @@ namespace Hyerin
 
 
             int layerMask = (1 << (LayerMask.GetMask(Ground)) | (1 << (LayerMask.GetMask(Tag_Player))));
-            RaycastHit hit;
+            // RaycastHit hit;
             // 플레이어 주변에 상호작용 가능한 오브젝트가 있는지 확인합니다.
             //Collider[] hitColliders = Physics.OverlapBox(transform.position, new Vector3(boxSize, boxSize, boxSize), Quaternion.identity, layerMask);
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, boxSize, layerMask, QueryTriggerInteraction.Ignore);

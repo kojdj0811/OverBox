@@ -38,7 +38,8 @@ namespace Moru
         private void OnDestroy()
         {
             //여기서 발생하는 에러는 무시해도 됩니다.
-            GameManager.Instance.OnRemoveBox();
+            if(GameManager.Instance != null) 
+                GameManager.Instance.OnRemoveBox();
         }
 
         /// <summary>
